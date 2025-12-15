@@ -1,0 +1,266 @@
+@import url("../variables.css");
+
+/* ================== Contenedor Principal ================== */
+.ratings-service-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 4rem 3rem;
+  background: linear-gradient(135deg, var(--fondo-2) 0%, var(--fondo-3) 50%, var(--fondo-1) 100%);
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+.ratings-service-container h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--titulo-1);
+  font-family: var(--font-title);
+  margin-bottom: 3rem;
+  text-shadow: 2px 2px 4px var(--sombra-1);
+}
+
+/* ================== Selector de Ordenación ================== */
+.ratings-service-container > div:first-of-type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 auto 3rem;
+  max-width: 600px;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 5px 20px var(--sombra-2);
+}
+
+.ratings-service-container > div:first-of-type p {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--titulo-1);
+  margin: 0;
+  font-family: var(--font-title);
+}
+
+.ratings-service-container select {
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: 2px solid var(--fondo-3);
+  background: var(--fondo-7);
+  font-size: 1rem;
+  font-family: var(--font-text);
+  color: var(--texto-principal);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px var(--sombra-1);
+}
+
+.ratings-service-container select:hover {
+  border-color: var(--fondo-1);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--sombra-2);
+}
+
+.ratings-service-container select:focus {
+  outline: none;
+  border-color: var(--fondo-1);
+  box-shadow: 0 0 0 3px rgba(211, 133, 206, 0.2);
+}
+
+/* ================== Tarjetas de Valoración ================== */
+.rating-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.5rem;
+  margin: 0 auto 2.5rem;
+  max-width: 1200px;
+  background: var(--fondo-7);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px var(--sombra-2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.rating-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px var(--sombra-3);
+  border-color: var(--fondo-4);
+}
+
+/* ================== Contenedor de Imagen y Contenido ================== */
+.rating-item > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex: 1;
+}
+
+/* Imagen del usuario */
+.rating-item > div:first-child > div:first-child {
+  flex-shrink: 0;
+}
+
+.rating-item > div:first-child > div:first-child img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--fondo-1);
+  box-shadow: 0 5px 15px var(--sombra-2);
+  transition: transform 0.3s ease;
+}
+
+.rating-item > div:first-child > div:first-child img:hover {
+  transform: scale(1.1);
+}
+
+/* Contenido del texto */
+.rating-item > div:first-child > div:last-child {
+  flex: 1;
+}
+
+.rating-item h4 {
+  margin: 0 0 0.8rem 0;
+  font-size: 1.4rem;
+  color: var(--titulo-1);
+  font-family: var(--font-title);
+  font-weight: 600;
+}
+
+.rating-item p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: var(--texto-secundario);
+  line-height: 1.6;
+  font-family: var(--font-text);
+}
+
+.rating-item p:first-of-type {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--texto-principal);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-item p:first-of-type span {
+  font-size: 1.3rem;
+  filter: drop-shadow(0 2px 3px var(--sombra-1));
+}
+
+/* ================== Fecha de Valoración ================== */
+.rating-item > div:last-child {
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--fondo-2) 0%, var(--fondo-3) 100%);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.rating-item > div:last-child p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--titulo-1);
+  font-weight: 600;
+  font-family: var(--font-button);
+}
+
+/* ================== Alternancia Imagen Izquierda/Derecha ================== */
+/* Por defecto (pares): imagen a la derecha, fecha a la izquierda */
+.rating-item:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.rating-item:nth-child(even) > div:first-child {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.rating-item:nth-child(even) p:first-of-type {
+  justify-content: flex-end;
+}
+
+/* Impares: imagen a la izquierda, fecha a la derecha */
+.rating-item:nth-child(odd) {
+  flex-direction: row;
+}
+
+.rating-item:nth-child(odd) > div:first-child {
+  flex-direction: row;
+  text-align: left;
+}
+
+.rating-item:nth-child(odd) p:first-of-type {
+  justify-content: flex-start;
+}
+
+/* ================== Responsive ================== */
+@media (max-width: 900px) {
+  .ratings-service-container {
+    padding: 3rem 1.5rem;
+  }
+
+  .ratings-service-container h2 {
+    font-size: 2rem;
+  }
+
+  .rating-item {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .rating-item > div:first-child {
+    flex-direction: column !important;
+    text-align: center !important;
+    width: 100%;
+  }
+
+  .rating-item:nth-child(odd) > div:first-child {
+    text-align: center !important;
+  }
+
+  .rating-item:nth-child(odd) p:first-of-type {
+    justify-content: center;
+  }
+
+  .rating-item > div:last-child {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .ratings-service-container {
+    padding: 2rem 1rem;
+  }
+
+  .ratings-service-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .ratings-service-container > div:first-of-type {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .rating-item {
+    padding: 1.5rem;
+  }
+
+  .rating-item > div:first-child > div:first-child img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .rating-item h4 {
+    font-size: 1.2rem;
+  }
+
+  .rating-item p {
+    font-size: 0.95rem;
+  }
+}

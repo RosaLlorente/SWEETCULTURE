@@ -1,0 +1,16 @@
+.contentComponent {
+  padding-top: 30px;
+}
+
+@media (max-width: 900px) {
+  .contentComponent {
+    padding-top: 30px;
+  }
+}
+
+/* Móvil */
+@media (max-width: 768px) {
+  .contentComponent {
+    padding-top: 30px;
+  }
+}

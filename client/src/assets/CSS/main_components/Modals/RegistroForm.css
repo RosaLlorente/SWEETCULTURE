@@ -1,0 +1,95 @@
+@import url("../../variables.css");
+
+#Registro.modal {
+    z-index: 2000 !important;
+    padding: 1rem;
+}
+
+#Registro h5 {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+}
+
+#Registro .modal-body {
+    font-family: var(--font-text);
+    font-size: 1rem;
+}
+
+#Registro button {
+    font-family: var(--font-button);
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--fondo-1);
+    border-color: var(--borde-medio);
+}
+
+/* Asegurar que inputs ocupen todo el ancho */
+#Registro .modal-body .form-control {
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* Input-group: distribuir correctamente input y botón */
+#Registro .input-group {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+#Registro .input-group input {
+    flex: 1 1 auto; /* input crece */
+}
+
+#Registro .input-group button {
+    flex: 0 0 auto; /* botón mantiene tamaño */
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+    #Registro h5 {
+        font-size: 1.3rem;
+    }
+
+    #Registro .modal-body {
+        font-size: 0.95rem;
+    }
+
+    #Registro button {
+        font-size: 0.95rem;
+        padding: 0.45rem 0.9rem;
+    }
+
+    #Registro .modal-body .form-control {
+        font-size: 0.95rem;
+    }
+}
+
+/* Móviles */
+@media (max-width: 767px) {
+    #Registro .modal-dialog {
+        margin: 1rem;
+        max-width: 95%;
+    }
+
+    #Registro h5 {
+        font-size: 1.2rem;
+    }
+
+    #Registro .modal-body {
+        font-size: 0.9rem;
+    }
+
+    #Registro button {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    #Registro .modal-body .form-control {
+        font-size: 0.9rem;
+    }
+
+    #Registro .input-group button {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.85rem;
+    }
+}

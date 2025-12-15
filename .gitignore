@@ -1,0 +1,23 @@
+# Dependencias
+/node_modules
+/client/node_modules
+/server/node_modules
+/dist
+/out
+
+# Ignorar carpeta de compilación especifica del cliente
+/client/build
+
+# Archivos de configuración y logs
+/server/.env
+npm-debug.log*
+yarn-error.log*
+
+# Archivos generados por IDEs
+.vscode/
+*.log
+
+# Otros
+Apuntes.txt
+CosasHechas.txt
+svg.txt

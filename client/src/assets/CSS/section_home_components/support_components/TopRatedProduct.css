@@ -1,0 +1,126 @@
+.top-rated-products {
+    width: 100%;
+    padding: 2rem 3rem;
+    background: var(--fondo-7);
+    font-family: var(--font-text);
+}
+
+.section-title {
+    font-family: var(--font-title);
+    color: var(--titulo-1);
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    font-family: var(--font-title);
+    color: var(--titulo-2);
+    margin-bottom: 1rem;
+}
+
+.top-product-card {
+    width: 100%;
+    background: linear-gradient(
+        135deg,
+        var(--resalto-2),
+        var(--fondo-6)
+    );
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: 0 6px 18px var(--sombra-1);
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.top-product-img {
+    width: 140px;
+    height: 140px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 4px solid var(--resalto-1);
+    margin-bottom: 1rem;
+}
+
+.top-product-name {
+    font-family: var(--font-title);
+    color: var(--texto-principal);
+    margin-bottom: 0.6rem;
+}
+
+/* RATING */
+.rating-stars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.rating-value {
+    margin-left: 0.5rem;
+    font-weight: bold;
+    color: var(--titulo-3);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.products-list-card,
+.products-chart-card {
+    background: var(--fondo-8);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 14px var(--sombra-1);
+}
+
+.products-ranking {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-item {
+    display: grid;
+    grid-template-columns: 30px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--borde-claro);
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-pos {
+    font-weight: bold;
+    color: var(--titulo-3);
+}
+
+.product-name {
+    color: var(--texto-secundario);
+}
+
+.product-stars {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.chart-wrapper {
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+/* Vista para telefonos y tablets */
+@media (max-width: 768px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .top-rated-products {
+        padding: 1.5rem;
+    }
+}

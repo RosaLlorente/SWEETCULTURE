@@ -1,0 +1,87 @@
+@import url("../../variables.css");
+#SearchOfersAdmin.navbar.bg-body-tertiary {
+    background-color: var(--fondo-3) !important;
+}
+#SearchOfersAdmin .search-product-navbar {
+    z-index: 10 !important;
+    position: relative;
+    font-family: var(--font-text);
+    background-color: var(--fondo-7);
+}
+
+#SearchOfersAdmin .search-product-navbar form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+}
+
+#SearchOfersAdmin .search-product-navbar .form-control,
+#SearchOfersAdmin .search-product-navbar .form-select,
+#SearchOfersAdmin .search-product-navbar .btn {
+    min-width: 80px;
+    max-width: 180px;
+    flex: 1 1 auto;
+    font-size: 0.75rem;
+    font-family: var(--font-text);
+    padding: 0.25rem 0.4rem;
+    height: 32px;
+    color: var(--texto-principal);
+    border: 1px solid var(--borde-claro);
+    border-radius: 4px;
+    background-color: var(--fondo-7);
+}
+
+#SearchOfersAdmin .search-product-navbar .btn {
+    background-color: var(--boton-primario);
+    color: var(--texto-invertido);
+    font-family: var(--font-button);
+}
+
+#SearchOfersAdmin .search-product-navbar .btn:hover {
+    background-color: var(--boton-primario-hover);
+}
+
+#SearchOfersAdmin .search-product-navbar .dropdown-menu {
+    max-height: 120px;
+    overflow-y: auto;
+    font-size: 0.75rem;
+    font-family: var(--font-text);
+    color: var(--texto-principal);
+}
+
+#SearchOfersAdmin .search-product-navbar .d-flex.gap-2 {
+    gap: 4px;
+}
+#SearchOfersAdmin button {
+    --bs-btn-font-family: var(--font-button) !important;
+    font-weight: 900 !important;
+    background-color: var(--fondo-4) !important;
+    color: var(--Marca) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #SearchOfersAdmin .search-product-navbar form {
+        flex-direction: column;
+        gap: 3px;
+        align-items: stretch;
+    }
+
+    #SearchOfersAdmin .search-product-navbar .form-control,
+    #SearchOfersAdmin .search-product-navbar .form-select,
+    #SearchOfersAdmin .search-product-navbar .btn {
+        width: 100%;
+        max-width: 100%;
+        font-size: 0.7rem;
+        padding: 0.2rem 0.35rem;
+        height: 28px;
+    }
+
+    #SearchOfersAdmin .search-product-navbar .d-flex.gap-2 {
+        flex-direction: column;
+        gap: 3px;
+        width: 100%;
+        align-items: center;
+    }
+}

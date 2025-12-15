@@ -1,0 +1,132 @@
+@import url("../variables.css");
+
+.product-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    width: 100%;
+    max-width: 100%;
+}
+
+.product-grid li {
+    display: block;
+    width: 100%;
+}
+
+.MuiCard-root {
+    width: 100%;
+    margin: 0;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px var(--sombra-1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-text);
+}
+
+.MuiCard-root:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px var(--sombra-2);
+}
+
+.MuiCardMedia-root {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.MuiCardContent-root {
+    padding: 10px 16px;
+}
+
+.MuiTypography-h5 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-family: var(--font-title);
+    color: var(--texto-principal);
+}
+
+.MuiTypography-body2 {
+    font-size: 0.9rem;
+    color: var(--texto-secundario);
+    margin-bottom: 4px;
+}
+
+.MuiTypography-body2.success {
+    color: var(--boton-primario);
+    font-weight: bold;
+}
+
+.MuiCardActions-root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+}
+
+.MuiButton-root {
+    font-size: 0.8rem;
+    min-width: 36px;
+    padding: 4px 8px;
+    font-family: var(--font-button);
+    background-color: var(--boton-primario);
+    color: var(--texto-invertido);
+}
+
+.MuiButton-root:hover {
+    background-color: var(--boton-primario-hover);
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+    }
+
+    .MuiCardMedia-root {
+        aspect-ratio: 16 / 9;
+    }
+
+    .MuiTypography-h5 {
+        font-size: 1rem;
+    }
+
+    .MuiTypography-body2 {
+        font-size: 0.85rem;
+    }
+
+    .MuiButton-root {
+        font-size: 0.75rem;
+        padding: 3px 6px;
+    }
+}
+
+/* Teléfonos */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .product-grid li {
+        display: flex;
+        justify-content: center;
+    }
+
+    .MuiCard-root {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .MuiCardMedia-root {
+        aspect-ratio: 1 / 1;
+    }
+}

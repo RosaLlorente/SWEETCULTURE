@@ -1,0 +1,21 @@
+[33m7e11a4d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m cambios
+[33m162ff85[m fix: corregir errores de producción
+[33m7226994[m Imagenes en server
+[33m0e280e6[m ruta cambio
+[33mc395eb9[m ruta
+[33mbde0477[m nombres tablas mayus
+[33m4fe7c46[m cambios de tablas a mayus
+[33mbfa43a8[m arreglando problema de conexion a bd
+[33m255d5c9[m cambio cords
+[33me9a0817[m cambio cords
+[33ma792812[m cambios2
+[33med4b233[m cambios2
+[33mf0b66e4[m cambios
+[33m6aedc91[m Correccion
+[33m63bee68[m gestion rutas cambios
+[33m7a32d1b[m "Fix: Sincronizado package-lock.json después de corregir la dependencia a mysql2."
+[33m256bc54[m Fix: Corregida dependencia de BD a mysql2 y eliminadas dependencias de frontend en el servidor.
+[33mdca911b[m Union de todas las producciones
+[33m28d7966[m Fix: Corregida la sensibilidad a mayúsculas y minúsculas en las claves foráneas (MySQL/Railway).
+[33m6847ac7[m Retoques de backend produccion node
+[33m3c1accd[m Commit inicial: V1 produccion

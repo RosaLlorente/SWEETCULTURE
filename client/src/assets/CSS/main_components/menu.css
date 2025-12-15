@@ -1,0 +1,140 @@
+@import url(../variables.css);
+
+#Menu.navbar.bg-body-tertiary {
+    background-color: var(--fondo-3) !important;
+}
+
+#Menu.navbar {
+    backdrop-filter: blur(5px) brightness(2);
+    position: fixed !important;
+    z-index: 1000 !important;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+#Menu.navbar.scrolled {
+    box-shadow: 0 2px 10px var(--sombra-3);
+}
+
+#Menu .navbar-collapse {
+    padding-top: 0.5rem;
+}
+
+#Menu .img-3d {
+    perspective: 1000px; 
+    width: 4.5em;
+    height: 4.5em;
+}
+
+#Menu .img-3d img {
+    display: block;
+    width: 4.5em;
+    height: 4.5em;
+    transform-style: preserve-3d;  
+    transition: transform 0.8s ease;
+}
+
+#Menu .img-3d:hover img {
+    transform: rotateY(180deg);
+}
+
+#Menu .Marca {
+    font-family: var(--font-title);
+    font-weight: bold;
+    font-style: italic;
+    text-shadow: 1px 3px 1px var(--sombra-3);
+    padding-right: 0.3rem;
+}
+
+#Menu .navbar-brand {
+    color: var(--Marca) !important;
+}
+
+#Menu .nav-link {
+    font-family: var(--font-button);
+    color: var(--texto-principal);
+    font-weight: 900 !important;
+    margin-top: 1em;
+    transition: all 0.5s ease-in !important;
+}
+
+#Menu .nav-link:hover,
+#Menu .nav-link:focus {
+    color: var(--resalto-3) !important;
+    background-color: var(--fondo-4);
+    border-radius: 1em;
+}
+
+#Menu .dropdown-menu {
+    background-color: var(--fondo-2) !important;
+}
+
+#Menu .dropdown-item {
+    transition: all 0.5s ease-in !important;
+}
+
+#Menu .dropdown-item:focus,
+#Menu .dropdown-item:hover {
+    background-color: var(--fondo-4);
+    border-radius: 1em;
+}
+
+#Menu .navbar-nav {
+    --bs-scroll-height: 100px;
+}
+
+#Menu .BotonesMenu {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+#Menu .btn {
+    --bs-btn-font-family: var(--font-button) !important;
+    font-weight: 900 !important;
+    background-color: var(--fondo-4) !important;
+    color: var(--Marca) !important;
+}
+
+#Menu .btn-outline-success {
+    --bs-btn-border-color: var(--borde-medio) !important;
+    --bs-btn-hover-border-color: var(--borde-medio) !important;
+}
+
+#Menu .buttonsvg {
+    background-color: transparent;
+    border: none;
+}
+
+#Menu svg {
+    width: 50px;
+    height: 50px;
+}
+
+/* Media query para tablets */
+@media (min-width: 900px) {
+    #Menu.navbar {
+        height: 6.6rem !important;
+    }
+    #Menu .nav-link {
+        font-size: 0.9rem !important; 
+        padding: 0.5rem !important;
+    }
+    #Menu .navbar-collapse {
+        background-color: var(--fondo-3);
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        padding: 1rem 1.5rem;
+        border-radius: 0 0 1.5rem 1.5rem;
+        backdrop-filter: none;
+    }
+    #Menu .img-3d {
+        width: 3.5em;
+        height: 3.5em;
+    }
+    #Menu .img-3d img {
+        width: 3.5em;
+        height: 3.5em;
+    }
+}

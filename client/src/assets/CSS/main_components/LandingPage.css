@@ -1,0 +1,30 @@
+@import url(../variables.css);
+
+/*SECCIÓN Landing*/
+#Landing{
+    height: 100vh;
+}
+.Contenido{
+    width: 100%;
+}
+.video-bg {
+    object-fit: cover;
+    z-index: -1; 
+}
+.Contenido {
+    z-index: 1; 
+}
+#Landing .btn{
+    font-family: var(--font-title);
+    font-weight: bold;
+    --bs-btn-font-size:2rem !important;
+}
+.btn-secondary
+{
+    width: 100%;
+    font-size: 35rem;
+    background-color: var(--boton-primario-opacidadbaja) !important; 
+    --bs-btn-border-color: none !important;
+    --bs-btn-padding-x: 1rem !important;
+    --bs-btn-padding-y: 1rem !important;
+}

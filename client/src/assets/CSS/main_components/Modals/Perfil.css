@@ -1,0 +1,141 @@
+@import url("../../variables.css");
+
+#Perfil.modal {
+    z-index: 2000 !important;
+}
+
+#Perfil .modal-header {
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0;
+}
+
+#Perfil h5 {
+    font-family: var(--font-title);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #333;
+}
+
+#Perfil .modal-body {
+    font-family: var(--font-text);
+    font-size: 1rem;
+    color: #555;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+#Perfil .modal-body img {
+    border-radius: 50%;              
+    object-fit: cover;                
+    width: 120px;                     
+    height: 120px;                    
+    margin-bottom: 1rem;
+    border: 3px solid var(--borde-medio);  
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+}
+
+#Perfil .data {
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+}
+
+#Perfil button {
+    font-family: var(--font-button);
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    background-color: var(--fondo-1);
+    border-color: var(--borde-medio);
+}
+
+#Perfil button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+#Perfil .modal-body .form-control, 
+#Perfil .modal-body select {
+    width: 100% !important;
+    box-sizing: border-box;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s;
+}
+
+#Perfil .modal-body .form-control:focus, 
+#Perfil .modal-body select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+#Perfil .MuiAlert-root {
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+#Perfil .d-flex.gap-2 button {
+    flex: 1;
+}
+#Perfil .cierre
+{
+    color: var(--Marca);
+    background-color: var(--fondo-1);
+    border-color: var(--borde-medio);
+    text-decoration: none;
+}
+/* Tablets */
+@media (max-width: 900px) {
+    #Perfil h5 { 
+        font-size: 1.4rem; 
+    }
+    #Perfil .modal-body { 
+        font-size: 0.95rem; 
+    }
+    #Perfil button { 
+        font-size: 0.95rem; 
+        padding: 0.45rem 0.9rem; 
+    }
+    #Perfil .modal-body .form-control { 
+        font-size: 0.95rem; 
+    }
+    #Perfil .modal-body img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* Teléfonos */
+@media (max-width: 767px) {
+    #Perfil .modal-dialog { 
+        margin: 1rem; 
+        max-width: 95%; 
+    }
+    #Perfil h5 { 
+        font-size: 1.2rem; 
+    }
+    #Perfil .modal-body { 
+        font-size: 0.9rem; 
+    }
+    #Perfil button { 
+        font-size: 0.9rem; 
+        padding: 0.4rem 0.8rem; 
+    }
+    #Perfil .modal-body .form-control { 
+        font-size: 0.9rem; 
+    }
+    #Perfil .modal-body img {
+        width: 90px;
+        height: 90px;
+    }
+}

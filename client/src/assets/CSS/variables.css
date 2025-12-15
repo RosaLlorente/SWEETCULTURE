@@ -1,0 +1,51 @@
+/* Importar fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&display=swap');
+
+/* Definir variables */
+:root {
+    /*FUENTES DE TEXTO*/
+    --font-title: "Poppins", sans-serif;
+    --font-button: "Quicksand", sans-serif;
+    --font-text: "Merriweather Sans", sans-serif;
+
+    /*PALETA DE COLORES*/
+    --Marca: rgb(255, 255, 255);
+    --titulo-1: rgb(18, 76, 82);
+    --titulo-2: rgb(43, 140, 137);
+    --titulo-3: rgb(6, 105, 122);
+
+    --texto-principal: rgb(26, 26, 26);
+    --texto-secundario: rgb(74, 74, 74);
+    --texto-invertido: rgb(255, 255, 255);
+
+    --fondo-1: rgba(211, 133, 206, 0.855);
+    --fondo-2: rgb(209, 179, 242);
+    --fondo-3: rgb(204, 171, 202);
+    --fondo-4: rgb(149, 92, 151);
+    --fondo-5: rgba(54, 65, 60, 0.478);
+    --fondo-6: rgb(179, 242, 236);
+    --fondo-7: rgb(255, 255, 255);
+    --fondo-8: rgb(255, 255, 255, 0.478);
+    
+    --resalto-1: rgb(244, 164, 123);
+    --resalto-2: rgb(246, 214, 148);
+    --resalto-3: rgb(178, 229, 238);
+
+    --boton-primario: rgb(43, 140, 137);
+    --boton-primario-hover: rgb(36, 115, 115);
+    --boton-primario-opacidadbaja: rgba(130, 155, 205, 0.408);
+
+    --texto-boton-primario: rgb(132, 0, 255);
+
+    --boton-secundario: rgb(244, 164, 123);
+    --boton-secundario-hover: rgb(232, 142, 96);
+
+    --sombra-1: rgba(0, 0, 0, 0.12);
+    --sombra-2: rgba(0, 0, 0, 0.25);
+    --sombra-3: rgba(0, 0, 0, 0.38);
+
+    --borde-claro: rgb(230, 230, 230);
+    --borde-medio: rgb(132, 0, 255);
+    --borde-acento: rgb(18, 76, 82);
+    --borde-acento2: rgb(142, 27, 27);
+}

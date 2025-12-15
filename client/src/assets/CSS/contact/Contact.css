@@ -1,0 +1,174 @@
+@import url("../variables.css");
+/* =============================
+   Sección Horario
+============================= */
+#contacto.horario-disponibilidad {
+    background-color: var(--fondo-6); /* Puedes mantener este si es neutro, o cambiar a azul claro */
+    padding: 3rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--sombra-1);
+}
+
+#contacto.horario-disponibilidad h2 {
+    font-family: var(--font-title);
+    color: var(--titulo-2);
+    text-align: center;
+}
+
+#contacto.horario-disponibilidad.tabla-horario table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-text);
+    box-shadow: 0 2px 6px var(--sombra-1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#contacto .tabla-horario th,
+#contacto .tabla-horario td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--borde-claro);
+}
+
+#contacto .tabla-horario th {
+    background-color: rgb(0, 102, 204); /* Azul oscuro */
+    color: var(--texto-invertido);
+    font-weight: 600;
+}
+
+#contacto .tabla-horario tr:nth-child(even) {
+    background-color: rgba(173, 216, 230, 0.5); /* Azul claro */
+}
+
+#contacto .formulario-contacto {
+    background-color: rgb(173, 216, 230); /* Azul suave */
+    padding: 3rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--sombra-2);
+}
+
+#contacto .formulario-contacto h2 {
+    font-family: var(--font-title);
+    color: rgb(0, 51, 102); /* Azul intenso para título */
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#contacto .formulario-contacto input,
+#contacto .formulario-contacto textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--borde-claro);
+    border-radius: 8px;
+    font-family: var(--font-text);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+#contacto .formulario-contacto input:focus,
+#contacto .formulario-contacto textarea:focus {
+    border-color: rgb(0, 102, 204); /* Azul para foco */
+    outline: none;
+}
+
+#contacto .formulario-contacto .form-check-label {
+    font-family: var(--font-text);
+    color: var(--texto-secundario);
+}
+
+#contacto .formulario-contacto button {
+    font-family: var(--font-button);
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#contacto .formulario-contacto .btn-primary {
+    background-color: rgb(0, 102, 204); /* Azul principal */
+    color: var(--texto-invertido);
+    margin-right: 1rem;
+}
+
+#contacto .formulario-contacto .btn-primary:hover {
+    background-color: rgb(0, 51, 153); /* Azul más oscuro al hover */
+    transform: scale(1.05);
+}
+
+#contacto .formulario-contacto .btn-secondary {
+    background-color: rgb(102, 178, 255); /* Azul secundario */
+    color: var(--texto-invertido);
+}
+
+#contacto .formulario-contacto .btn-secondary:hover {
+    background-color: rgb(51, 153, 255); /* Azul más intenso */
+    transform: scale(1.05);
+}
+
+/* =============================
+   Información de contacto
+============================= */
+#contacto .info-contacto {
+    background-color: rgb(173, 216, 230); /* Azul suave */
+    padding: 3rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--sombra-1);
+    margin-bottom: 3rem;
+}
+
+#contacto .info-contacto h2 {
+    font-family: var(--font-title);
+    color: rgb(0, 102, 204); /* Azul título */
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#contacto .info-contacto .row div {
+    padding: 1rem;
+    background-color: rgb(135, 206, 250); /* Azul medio */
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px var(--sombra-1);
+}
+
+#contacto .info-contacto h5 {
+    font-family: var(--font-title);
+    color: rgb(0, 51, 102); /* Azul oscuro */
+    margin-bottom: 0.5rem;
+}
+
+#contacto .info-contacto p {
+    font-family: var(--font-text);
+    color: var(--texto-principal);
+}
+
+/* =============================
+   Responsividad
+============================= */
+@media (max-width: 992px) {
+    #contacto .tabla-horario th,
+    #contacto .tabla-horario td {
+        padding: 0.5rem;
+    }
+
+    #contacto .formulario-contacto input,
+    #contacto .formulario-contacto textarea {
+        padding: 0.5rem;
+    }
+
+    #contacto .formulario-contacto button {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #contacto.horario-disponibilidad,
+    #contacto .formulario-contacto,
+    #contacto .info-contacto {
+        padding: 2rem 1rem;
+    }
+}
