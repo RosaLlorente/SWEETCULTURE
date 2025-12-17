@@ -424,7 +424,7 @@ export const addToHistorial = (req, res) => {
 export const getUsersOrders = (req, res) => {
     const sql = `
         SELECT h.*, u.nombre, u.apellidos
-        FROM historial_pedidos h
+        FROM HISTORIAL_PEDIDOS h
         JOIN usuarios u ON h.id_usuario = u.id_usuario
         ORDER BY h.fecha_pedido DESC
     `;
