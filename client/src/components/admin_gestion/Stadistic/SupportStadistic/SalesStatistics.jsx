@@ -98,14 +98,14 @@ const SalesStadistics = () =>
                     <div className="card shadow-sm p-3">
                         <h3>💰 Ventas completadas</h3>
                         <p>Total pedidos completados: <strong>{ventas.total_pedidos}</strong></p>
-                        <p>Rentabilidad: <strong>${ventas.ventas_totales?.toFixed(2) || 0}</strong></p>
+                        <p>Rentabilidad: <strong>${ Number(ventas.ventas_totales)?.toFixed(2) || 0}</strong></p>
                     </div>
                 </div>
                 <div className="col-md-6">
                     <div className="card shadow-sm p-3">
                         <h3>📊 Todos los pedidos</h3>
                         <p>Total pedidos: <strong>{ventasAll.total_pedidos}</strong></p>
-                        <p>Rentabilidad total estimada: <strong>${ventasAll.ventas_totales?.toFixed(2) || 0}</strong></p>
+                        <p>Rentabilidad total estimada: <strong>${ Number(ventasAll.ventas_totales)?.toFixed(2) || 0}</strong></p>
                     </div>
                 </div>
             </div>

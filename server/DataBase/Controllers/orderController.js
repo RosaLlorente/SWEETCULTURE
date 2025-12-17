@@ -1,6 +1,6 @@
-const db = require('../db'); // Archivo donde exportas tu conexión a MySQL
+import db from '../db.js'; // Archivo donde exportas tu conexión a MySQL
 
-const newOrder =(req, res) => {
+export const newOrder =(req, res) => {
     const { id_usuario } = req.body;
     console.log("id_usuario recibido:", id_usuario);
     // Crear un nuevo pedido con estado "en_pedido"
@@ -17,7 +17,7 @@ const newOrder =(req, res) => {
     );
 }
 
-const getCurrentOrder = (req, res) => {
+export const getCurrentOrder = (req, res) => {
     const { id_usuario } = req.params;
 
     db.query(
@@ -49,7 +49,7 @@ const getCurrentOrder = (req, res) => {
     );
 }
 
-const addItemToOrder = (req, res) => {
+export const addItemToOrder = (req, res) => {
     const { id_pedido, id_postre, cantidad } = req.body;
 
     db.query('SELECT id_usuario FROM pedidos WHERE id_pedido = ?', [id_pedido], (err, pedidoResult) => {
@@ -158,7 +158,7 @@ const addItemToOrder = (req, res) => {
     });
 };
 
-const removeItemFromOrder = (req, res) => {
+export const removeItemFromOrder = (req, res) => {
     const { id_pedido, id_postre, cantidad } = req.body;
 
     db.query(
@@ -232,7 +232,7 @@ const removeItemFromOrder = (req, res) => {
     );
 };
 
-const updateOrderStatus = (req, res) => {
+export const updateOrderStatus = (req, res) => {
     const { id_pedido, estado } = req.body;
 
     db.query(
@@ -249,7 +249,7 @@ const updateOrderStatus = (req, res) => {
 }
 
 //Tabla DETALLE DE PEDIDOS (POSTRES EN CADA PEDIDO)
-const getOrderDetailsEspecificProduct = (req, res) => {
+export const getOrderDetailsEspecificProduct = (req, res) => {
     const { id_pedido,id_postre } = req.params;
 
     db.query(
@@ -265,7 +265,7 @@ const getOrderDetailsEspecificProduct = (req, res) => {
     );
 }
 
-const deleteOrder = (req, res) => {
+export const deleteOrder = (req, res) => {
     const { id_pedido } = req.body;
 
     // 1️⃣ Obtener los detalles del pedido
@@ -316,7 +316,7 @@ const deleteOrder = (req, res) => {
     });
 };
 
-const addToHistorial = (req, res) => {
+export const addToHistorial = (req, res) => {
     const { id_pedido, id_usuario, total, postres, estado } = req.body;
     const postresArray = JSON.parse(postres);
 
@@ -421,7 +421,7 @@ const addToHistorial = (req, res) => {
 //Al enviar el pedido se usa HISTORIAL_PEDIDOS (Evita la perdida de datos al modificar postres)
 
 //Gestion de historial
-const getUsersOrders = (req, res) => {
+export const getUsersOrders = (req, res) => {
     const sql = `
         SELECT h.*, u.nombre, u.apellidos
         FROM historial_pedidos h
@@ -434,12 +434,17 @@ const getUsersOrders = (req, res) => {
             console.error('Error al obtener el historial de pedido del usuario:', err);
             return res.status(500).json({ error: 'Error del servidor' });
         }
+
+        results.forEach(r => {
+            r.postres = safeParseJSON(r.postres);
+        });
+
         res.json(results);
     });
 };
 
 
-const getUserOrders = (req, res) => {
+export const getUserOrders = (req, res) => {
     const { id_usuario} = req.params;
 
      db.query(
@@ -450,12 +455,16 @@ const getUserOrders = (req, res) => {
                 console.error('Error al obtener el historial de pedido del usuario:', err);
                 return res.status(500).json({ error: 'Error del servidor' });
             }
+            results.forEach(r => {
+                r.postres = safeParseJSON(r.postres);
+            });
+
             res.json(results);
         }
     );
 }
 
-const updateOrderHistorial = (req, res) => {
+export const updateOrderHistorial = (req, res) => {
     const { id_historial, estado } = req.body;
 
     // 1️⃣ Actualizar estado del pedido
@@ -499,7 +508,7 @@ const updateOrderHistorial = (req, res) => {
                         // 2b️⃣ Actualizar o insertar ranking de postres
                         let postresArray;
                         try {
-                            postresArray = JSON.parse(postres); // [{id_postre, cantidad,...}, ...]
+                            postresArray = safeParseJSON(postres); // [{id_postre, cantidad,...}, ...]
                         } catch (parseErr) {
                             console.error('Error parseando postres JSON:', parseErr);
                             postresArray = [];
@@ -530,7 +539,7 @@ const updateOrderHistorial = (req, res) => {
 
 
 
-const deleteOrderHistorial = (req, res) => {
+export const deleteOrderHistorial = (req, res) => {
     const { id_historial } = req.params;
 
     // 1️⃣ Primero obtenemos el pedido para restaurar stock si hace falta
@@ -547,7 +556,8 @@ const deleteOrderHistorial = (req, res) => {
             }
 
             const historial = results[0];
-            const postresArray = JSON.parse(historial.postres);
+            const postresArray = safeParseJSON(historial.postres);
+
 
             // 2️⃣ Restaurar stock de postres
             postresArray.forEach(postre => {
@@ -577,7 +587,7 @@ const deleteOrderHistorial = (req, res) => {
     );
 };
 
-const searchHistorial = (req, res) => {
+export const searchHistorial = (req, res) => {
     const { id_historial, id_usuario, estado, nombre, apellidos } = req.body;
 
     let query = `
@@ -622,7 +632,14 @@ const searchHistorial = (req, res) => {
     });
 };
 
+const safeParseJSON = (value) => {
+    if (!value) return [];
+    if (typeof value === "object") return value;
 
-module.exports = {
-    newOrder,getCurrentOrder,addItemToOrder,removeItemFromOrder,updateOrderStatus,getOrderDetailsEspecificProduct,
-    getUsersOrders,getUserOrders, deleteOrder,addToHistorial, updateOrderHistorial, deleteOrderHistorial,searchHistorial};
+    try {
+        return JSON.parse(value);
+    } catch (err) {
+        console.error("Error parseando JSON:", err);
+        return [];
+    }
+};

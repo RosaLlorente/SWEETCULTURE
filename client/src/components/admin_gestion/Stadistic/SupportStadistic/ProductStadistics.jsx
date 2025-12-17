@@ -88,11 +88,19 @@ const ProductStadistics = () =>
                 <h4>🏆 Mejor postre</h4>
                 {bestProduct ? (
                     <div className="d-flex align-items-center gap-3">
-                        <img
-                            src={`/ProductImage/${bestProduct.imagen}`}
-                            alt={bestProduct.nombre}
-                            style={{ width: "100px", borderRadius: "8px" }}
-                        />
+                        {!bestProduct.imagen || bestProduct.imagen === "null" ? (
+                            <img
+                                src="/ProductImage/404product.jpg"
+                                alt={bestProduct.nombre}
+                                style={{ width: "100px", borderRadius: "8px" }}
+                            />
+                        ) : (
+                            <img
+                                src={bestProduct.imagen}
+                                alt={bestProduct.nombre}
+                                style={{ width: "100px", borderRadius: "8px" }}
+                            />
+                        )}
                         <div>
                             <h5>{bestProduct.nombre}</h5>
                             <p>Unidades vendidas: <strong>{bestProduct.ventas_totales}</strong></p>
@@ -128,7 +136,7 @@ const ProductStadistics = () =>
                         {topRated.map((p, i) => (
                             <li key={i} className="list-group-item d-flex justify-content-between align-items-center">
                                 {i + 1}. {p.nombre}
-                                <span>{p.promedio != null ? p.promedio.toFixed(1) : "N/A"} / 5</span>
+                                <span>{p.promedio != null ?  Number(p.promedio).toFixed(1) : "N/A"} / 5</span>
                             </li>
                         ))}
                     </ul>
@@ -164,11 +172,19 @@ const ProductStadistics = () =>
                                         data-bs-parent="#productsAccordion"
                                     >
                                         <div className="accordion-body">
-                                            <img
-                                                src={`/ProductImage/${p.imagen}`}
-                                                alt={p.nombre}
-                                                style={{ width: "80px", borderRadius: "6px", marginRight: "10px" }}
-                                            />
+                                            {!p.imagen || p.imagen === "null" ? (
+                                                <img
+                                                    src="/ProductImage/404product.jpg"
+                                                    alt={p.nombre}
+                                                    style={{ width: "100px", borderRadius: "8px" }}
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={p.imagen}
+                                                    alt={p.nombre}
+                                                    style={{ width: "80px", borderRadius: "6px", marginRight: "10px" }}
+                                                />
+                                            )}
                                             <span>Unidades vendidas: <strong>{p.total_vendido}</strong></span>
                                         </div>
                                     </div>

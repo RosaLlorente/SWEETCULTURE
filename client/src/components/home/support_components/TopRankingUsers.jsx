@@ -91,13 +91,20 @@ const TopRankingUsers = () =>
             <div className="top-card">
                 <h3 className="section-title">🏆 Usuario TOP del mes</h3>
 
-                <img
-                    src={topUser.imagen
-                        ? `/ProfileUserImage/${topUser.imagen}`
-                        : "/ProfileUserImage/DefaultImage.jpg"}
+                {!topUser.imagen || topUser.imagen === "null" ? (
+                    <img
+                        src="/ProfileUserImage/DefaultImage.jpg"
+                        alt={topUser.nombre}
+                        className="top-avatar"
+                    />
+                ) : (
+                    <img
+                    src={topUser.imagen}
                     alt={topUser.nombre}
                     className="top-avatar"
-                />
+                    />
+                )}
+                
 
                 <h4 className="top-name">
                     {topUser.nombre} {topUser.apellidos}
@@ -120,15 +127,19 @@ const TopRankingUsers = () =>
                         {topUsers.map((u, i) => (
                             <li key={u.id_usuario} className="ranking-item">
                                 <span className="ranking-pos">{i + 1}</span>
-
-                                <img
-                                    src={u.imagen
-                                        ? `/ProfileUserImage/${u.imagen}`
-                                        : "/ProfileUserImage/DefaultImage.jpg"}
+                                {!u.imagen || u.imagen === "null" ? (
+                                    <img
+                                        src="/ProfileUserImage/DefaultImage.jpg"
+                                        alt={u.nombre}
+                                        className="top-avatar"
+                                    />
+                                ) : (
+                                    <img
+                                    src={u.imagen}
                                     alt={u.nombre}
                                     className="ranking-avatar"
-                                />
-
+                                    />
+                                )}
                                 <span className="ranking-name">
                                     {u.nombre} {u.apellidos}
                                 </span>

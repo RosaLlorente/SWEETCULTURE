@@ -288,11 +288,20 @@ export function SectionUs()
                                         <div className="card valoracion-card text-center p-4">
                                             
                                             <div className="valoracion-img-container">
-                                                <img
-                                                    src={val.imagen? "ProfileUserImage/" + val.imagen : "ProfileUserImage/DefaultImage.jpg"}
-                                                    alt={val.nombre}
-                                                    className="valoracion-img"
-                                                />
+                                                {!val.imagen || val.imagen === "null" ? (
+                                                    <img
+                                                        src="/ProfileUserImage/DefaultImage.jpg"
+                                                        alt={val.nombre}
+                                                        className="valoracion-img"
+                                                    />
+                                                ) : (
+                                                    
+                                                    <img
+                                                        src={val.imagen}
+                                                        alt={val.nombre}
+                                                        className="valoracion-img"
+                                                    />
+                                                )}
                                             </div>
 
                                             <h5 className="valoracion-nombre">{val.nombre}</h5>

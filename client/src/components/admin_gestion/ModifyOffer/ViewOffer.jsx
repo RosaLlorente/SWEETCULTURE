@@ -104,7 +104,7 @@ const ViewOffer = ({ofertas}) =>
         formData.append("fecha_fin", editData.fecha_fin);
         formData.append("ser_visible", editData.ser_visible === "true" ? 1 : 0);
 
-        const { error, data } = validateEditOffer(editData);
+        const { error } = validateEditOffer(editData);
         if (error) 
         {
             setAlertMessage(error);
@@ -112,17 +112,15 @@ const ViewOffer = ({ofertas}) =>
             return;
         }
 
-        axios.put(`http://localhost:3000/updateProduct/${id_oferta}`, formData, {
-            headers: { "Content-Type": "multipart/form-data" },
-        })
+        axios.put(`http://localhost:3000/updateOffer/${id_oferta}`, formData,)
         .then(() => {
-            setAlertMessage("Producto modificado correctamente");
+            setAlertMessage("Oferta modificada correctamente");
             setAlertSeverity("success");
             GetOffers();
             cancelEdit();
         })
         .catch(err => {
-            setAlertMessage("No se pudo modificar el producto");
+            setAlertMessage("No se pudo modificar la oferta");
             setAlertSeverity("error");
         });
     }
@@ -183,7 +181,7 @@ const ViewOffer = ({ofertas}) =>
 
         // Limpiar seleccionados
         setSelectedOffers([]);
-        setAlertMessage("Productos eliminados correctamente");
+        setAlertMessage("Ofertas eliminados correctamente");
         setAlertSeverity("success");
     };
 
@@ -317,7 +315,7 @@ const ViewOffer = ({ofertas}) =>
                                                         type="date"
                                                         value={editData.fecha_inicio  ? editData.fecha_inicio.split('T')[0] : ''}
                                                         onChange={(e) =>
-                                                            setEditData({ ...editData, valor: e.target.fecha_inicio })
+                                                            setEditData({ ...editData, fecha_inicio: e.target.value})
                                                         }
                                                     />
                                                 ) : formatDate(offer.fecha_inicio)}
@@ -328,9 +326,9 @@ const ViewOffer = ({ofertas}) =>
                                                 {editIndex === index ? (
                                                     <input className="form-control"
                                                         type="date"
-                                                        value={editData.fecha_fin  ? editData.fecha_inicio.split('T')[0] : ''}
+                                                        value={editData.fecha_fin  ? editData.fecha_fin.split('T')[0] : ''}
                                                         onChange={(e) =>
-                                                            setEditData({ ...editData, valor: e.target.fecha_fin })
+                                                            setEditData({ ...editData, fecha_fin: e.target.value })
                                                         }
                                                     />
                                                 ) : formatDate(offer.fecha_fin)}

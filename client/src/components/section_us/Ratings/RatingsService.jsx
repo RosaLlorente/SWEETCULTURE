@@ -96,7 +96,11 @@ const RatingsService = () =>
         <div key={index} className="rating-item">
            <div>
                 <div>
-                    <img src={item.image ? `ProfileUserImage/${item.imagen}` : `ProfileUserImage/DefaultImage.jpg`} alt="User" width="50" height="50" />
+                  {!item.imagen || item.imagen === "null" ? (
+                      <img src="/ProfileUserImage/DefaultImage.jpg" width="80" alt={item.nombre} />
+                  ) : (
+                      <img src={item.imagen} width="80" alt={item.nombre} />
+                  )}
                 </div>
                 <div>
                     <h4>{item.nombre}</h4>

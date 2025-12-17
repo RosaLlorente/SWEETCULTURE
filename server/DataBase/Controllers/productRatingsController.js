@@ -1,6 +1,6 @@
-const db = require('../db'); // Archivo donde exportas tu conexión a MySQL
+import db from '../db.js'; // Archivo donde exportas tu conexión a MySQL
 
-const addRatingProduct = (req, res) => {
+export const addRatingProduct = (req, res) => {
     const { 
         id_usuario,id_postre,comentario,puntuacion,fecha_valoracion
     } = req.body;
@@ -26,7 +26,7 @@ const addRatingProduct = (req, res) => {
  * @param {*} req 
  * @param {*} res 
  */
-const getRatingsProduct = (req, res) => {
+export const getRatingsProduct = (req, res) => {
     db.query(`SELECT 
             vp.*, 
             u.nombre AS nombre_usuario, 
@@ -50,7 +50,7 @@ const getRatingsProduct = (req, res) => {
  * @param {*} req 
  * @param {*} res 
  */
-const getMeanRatingProduct = (req, res) => {
+export const getMeanRatingProduct = (req, res) => {
     const { id_postre } = req.params;
     db.query(
         "SELECT AVG(puntuacion) AS promedio FROM valoraciones_postres WHERE id_postre = ?",
@@ -69,7 +69,7 @@ const getMeanRatingProduct = (req, res) => {
  * @param {*} req 
  * @param {*} res 
  */
-const getTopRatingedProducts = (req, res) => {
+export const getTopRatingedProducts = (req, res) => {
     db.query(
         `SELECT p.*, AVG(vp.puntuacion) AS promedio
             FROM postres p
@@ -86,5 +86,3 @@ const getTopRatingedProducts = (req, res) => {
         }
     );
 };
-
-module.exports = {addRatingProduct, getRatingsProduct, getMeanRatingProduct, getTopRatingedProducts};

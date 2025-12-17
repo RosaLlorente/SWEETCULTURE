@@ -75,7 +75,7 @@ export function AddProduct()
     const registerProduct = (e) => 
     {
         e.preventDefault();
-        const { error, data } = validateProductForm({
+        const { error } = validateProductForm({
             nombre,
             origen,
             precio,
@@ -97,7 +97,7 @@ export function AddProduct()
         formData.append("origen", origen);
         formData.append("precio", precio);
         formData.append("etiqueta_especial",etiqueta_especial);
-        formData.append("imagen", imagen); // archivo real
+        formData.append("Imagen", imagen); 
         formData.append("descripcion", descripcion);
         formData.append("ingredientes", ingredientes);
         formData.append("disponible", disponible ? 1 : 0);
@@ -108,15 +108,13 @@ export function AddProduct()
         formData.append("capacidad_horneado", capacidad_horneado);
         formData.append("fecha_creacion", fecha_creacion);
 
-        Axios.post("http://localhost:3000/addProduct", formData, {
-            headers: { "Content-Type": "multipart/form-data" }
-        })
-        .then((response) => {
+        Axios.post("http://localhost:3000/addProduct", formData)
+        .then(() => {
             setAlertMessage("Se ha podido crear el producto correctamente");
             setAlertSeverity("success");
             resetForm();
         })
-        .catch((err) => {
+        .catch(() => {
             setAlertMessage("No se ha podido crear el producto");
             setAlertSeverity("error");
         });

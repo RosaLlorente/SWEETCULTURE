@@ -1,6 +1,6 @@
-const db = require('../db'); // Archivo donde exportas tu conexión a MySQL
+import db from '../db.js'; // Archivo donde exportas tu conexión a MySQL
 
-const addRating = (req, res) => {
+export const addRating = (req, res) => {
     const { 
         id_usuario,comentario,puntuacion,fecha_valoracion
     } = req.body;
@@ -21,7 +21,7 @@ const addRating = (req, res) => {
     );
 };
 
-const getRatingsServices = (req, res) => {
+export const getRatingsServices = (req, res) => {
     db.query(`SELECT vs.*, u.nombre, u.imagen FROM valoraciones_servicio vs INNER JOIN usuarios u ON vs.id_usuario = u.id_usuario`, 
         (err, results) => {
         if (err) {
@@ -31,5 +31,3 @@ const getRatingsServices = (req, res) => {
         res.status(200).json(results);
     });
 };
-
-module.exports = {addRating,getRatingsServices};

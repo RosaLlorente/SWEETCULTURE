@@ -1,7 +1,7 @@
-const db = require('../db'); // Archivo donde exportas tu conexión a MySQL
+import db from '../db.js'; // Archivo donde exportas tu conexión a MySQL
 
 // Añadir una oferta
-const addOffer = (req, res) => {
+export const addOffer = (req, res) => {
     const { 
         nombre,tipo,valor,id_postre,fecha_inicio,fecha_fin,ser_visible,fecha_creacion
     } = req.body;
@@ -26,7 +26,7 @@ const addOffer = (req, res) => {
 };
 
 // Obtener productos
-const getOffers = (req, res) => {
+export const getOffers = (req, res) => {
     db.query("SELECT * FROM ofertas", (err, result) => {
         if (err) {
             console.log(err);
@@ -36,7 +36,7 @@ const getOffers = (req, res) => {
     });
 };
 
-const optionSearchOffer = (req, res) => {
+export const optionSearchOffer = (req, res) => {
     db.query("SELECT DISTINCT tipo FROM ofertas", (err, tipoResult) => {
         if (err) {
             console.log(err);
@@ -47,7 +47,7 @@ const optionSearchOffer = (req, res) => {
     });
 };
 
-const searchOffer = (req, res) => {
+export const searchOffer = (req, res) => {
     const { nombre, tipo } = req.body;  
     
     let query = "SELECT * FROM ofertas WHERE 1=1";
@@ -73,21 +73,23 @@ const searchOffer = (req, res) => {
 
 }
 
-const updateOffer = (req, res) => {
+export const updateOffer = (req, res) => {
     const { id_oferta } = req.params;
-    const { nombre,tipo,valor,id_postre,fecha_inicio,fecha_fin,ser_visible} = req.body;
+    let { nombre, tipo, valor, id_postre, fecha_inicio, fecha_fin, ser_visible } = req.body;
 
-     // Si el tipo no es "descuento", forzar valor a 0 o null
     if (tipo !== "descuento") {
-        valor = 0; // o null si tu columna permite null
+        valor = 0;
     }
+
+    // Formatear fechas a YYYY-MM-DD
+    fecha_inicio = fecha_inicio ? fecha_inicio.split('T')[0] : null;
+    fecha_fin = fecha_fin ? fecha_fin.split('T')[0] : null;
 
     const query = `
         UPDATE ofertas
         SET nombre = ?, tipo = ?, valor = ?, id_postre = ?, fecha_inicio = ?, fecha_fin = ?, ser_visible = ?
         WHERE id_oferta = ?
     `;
-
     const values = [nombre, tipo, valor, id_postre, fecha_inicio, fecha_fin, ser_visible, id_oferta];
 
     db.query(query, values, (err, result) => {
@@ -97,16 +99,31 @@ const updateOffer = (req, res) => {
         }
         res.status(200).send("Oferta actualizada correctamente");
     });
-}
+};
 
-const deleteOffer = (req, res) => {
+export const deleteOffer = (req, res) => {
     const { id_oferta } = req.params;
 
-    db.query("DELETE FROM ofertas WHERE id_oferta = ?", [id_oferta], (err2) => {
-        if (err2) {
-            console.log(err2);
-            return res.status(500).send("Error al eliminar el producto");
-        }});
-}
+    if (!id_oferta) {
+        return res.status(400).send("ID inválido");
+    }
 
-module.exports = { addOffer,getOffers,optionSearchOffer,searchOffer,updateOffer,deleteOffer};
+    db.query(
+        "DELETE FROM ofertas WHERE id_oferta = ?",
+        [id_oferta],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send("Error al eliminar la oferta");
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).send("Oferta no encontrada");
+            }
+
+            return res.status(200).send("Oferta eliminada correctamente");
+        }
+    );
+};
+
+

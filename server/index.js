@@ -1,63 +1,42 @@
-require('dotenv').config();
-const express = require('express');
-const multer = require("multer");
-const upload = multer();
-const path = require("path");
-const Cors = require('cors');
-const PORT = process.env.PORT || 3000;
-const { addProduct, getProducts, updateProduct, deleteProduct, optionSearchProducts, optionSearchProductsAdmin, searchProduct, } = require('./DataBase/Controllers/productController');
-const { addUser,searchUser,searchUserID,updateUser,getTopRatingedUsers } = require('./DataBase/Controllers/userController');
-const {addOffer,getOffers,optionSearchOffer,searchOffer,updateOffer,deleteOffer} = require ('./DataBase/Controllers/offerController');
-const { addRating,getRatingsServices } = require('./DataBase/Controllers/serviceRatingsController');
-const { addRatingProduct,getRatingsProduct,getMeanRatingProduct,getTopRatingedProducts} = require('./DataBase/Controllers/productRatingsController');
-const { newOrder,getCurrentOrder,addItemToOrder,removeItemFromOrder,getOrderDetailsEspecificProduct,updateOrderStatus,deleteOrder,
-    addToHistorial,getUsersOrders,getUserOrders,updateOrderHistorial,deleteOrderHistorial,searchHistorial } = require('./DataBase/Controllers/orderController');
-const{getVentasTotales,getPedidosTotales,getVentasPorEstado,getBestProduct,getTop5SoldProducts,getTop5RatedProducts,getSalesPerProduct,getTotalUsers,getTopUsuarios}= require('./DataBase/Controllers/stadisticAdminController');
+import dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
+import { upload } from "./Multerconfing/cloudinary.js";
+import {PORT} from "./confing.js";
+import "./ResetEffects/cronJobs.js";
+import multer from "multer";
+dotenv.config();
+
+
+import { addProduct, getProducts, updateProduct, deleteProduct, optionSearchProducts, optionSearchProductsAdmin, searchProduct, } from './DataBase/Controllers/productController.js';
+import { addUser,searchUser,updateUser,getTopRatingedUsers } from './DataBase/Controllers/userController.js';
+import {addOffer,getOffers,optionSearchOffer,searchOffer,updateOffer,deleteOffer} from './DataBase/Controllers/offerController.js';
+import { addRating,getRatingsServices } from'./DataBase/Controllers/serviceRatingsController.js';
+import { addRatingProduct,getRatingsProduct,getMeanRatingProduct,getTopRatingedProducts} from'./DataBase/Controllers/productRatingsController.js';
+import { newOrder,getCurrentOrder,addItemToOrder,removeItemFromOrder,getOrderDetailsEspecificProduct,updateOrderStatus,deleteOrder,
+    addToHistorial,getUsersOrders,getUserOrders,updateOrderHistorial,deleteOrderHistorial,searchHistorial } from'./DataBase/Controllers/orderController.js';
+import {getVentasTotales,getPedidosTotales,getVentasPorEstado,getBestProduct,getTop5SoldProducts,getTop5RatedProducts,getSalesPerProduct,getTotalUsers,getTopUsuarios} from'./DataBase/Controllers/stadisticAdminController.js';
 
 const app = express();
-app.use(Cors());
+app.use(cors());
 app.use(express.json());
-require("./ResetEffects/cronJobs");
-
-// Configuración multer
-const Productstorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, "../client/public/ProductImage"));
-    },
-    filename: (req, file, cb) => {
-        const uniqueName = Date.now() + path.extname(file.originalname);
-        cb(null, uniqueName);
-    }
-});
-const uploadProductImage = multer({ storage: Productstorage });
-
-
-const Userstorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, "../client/public/ProfileUserImage"));
-    },
-    filename: (req, file, cb) => {
-        const uniqueName = Date.now() + path.extname(file.originalname);
-        cb(null, uniqueName);
-    }
-});
-const uploadUsertImage = multer({ storage: Userstorage });
-
 
 
 //Rutas de acceso a la tabla de usuarios
-app.post("/addUser", uploadUsertImage.single("Imagen"), addUser);
+app.post("/addUser", upload.single("Imagen"), addUser);
+
+
 app.post("/searchUser", searchUser);
-app.put("/updateUser/:id_usuario", uploadUsertImage.single("imagen"), updateUser);
+app.put("/updateUser/:id_usuario", upload.single("Imagen"), updateUser);
 app.get("/getTopRatingedUsers",getTopRatingedUsers);
 
 // Rutas de acceso a la tabla de productos
-app.post("/addProduct", uploadProductImage.single("imagen"), addProduct);
+app.post("/addProduct", upload.single("Imagen"), addProduct);
 app.get("/getProducts", getProducts);
 app.get("/optionSearchProducts", optionSearchProducts);
 app.get("/optionSearchProductsAdmin", optionSearchProductsAdmin);
 app.post("/searchProduct", searchProduct);
-app.put("/updateProduct/:id_postre", uploadProductImage.single("imagen"), updateProduct);
+app.put("/updateProduct/:id_postre", upload.single("Imagen"), updateProduct);
 app.delete("/deleteProduct/:id_postre", deleteProduct);
 
 //Rutas de acceso a la tabla de ofertas
@@ -65,8 +44,8 @@ app.post("/addOffer", upload.none(), addOffer);
 app.get("/getOffers", getOffers);
 app.get("/optionSearchOffer", optionSearchOffer);
 app.post("/searchOffer", searchOffer);
-app.put("/updateOffer/:id_oferta", uploadProductImage.single("imagen"), updateOffer);
-app.delete("/deleteOffer/:id_postre", deleteOffer);
+app.put("/updateOffer/:id_oferta", upload.none(), updateOffer);
+app.delete("/deleteOffer/:id_oferta", deleteOffer);
 
 // Ruta de acceso a la tabla de valoraciones de servicios
 app.post("/addRating", upload.none(), addRating);
@@ -109,5 +88,21 @@ app.get('/getTopUsuarios',getTopUsuarios);
 // Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+});
+
+app.use((err, req, res, next) => {
+  console.error("🔥 ERROR GLOBAL:", err);
+
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({
+      error: "Error al subir archivo",
+      details: err.message,
+    });
+  }
+
+  res.status(500).json({
+    error: "Error interno del servidor",
+    details: err.message,
+  });
 });
 

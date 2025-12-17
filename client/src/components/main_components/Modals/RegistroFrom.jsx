@@ -103,6 +103,7 @@ const RegistroFrom = () =>
         formData.append("Password", contrasena);
         formData.append("Informacion_publica", informacion_publica ? 1 : 0);
         formData.append("fecha_registro", fecha_registro);
+        console.log(imagen);
 
         axios.post("http://localhost:3000/addUser", formData)
         .then((response) => 
@@ -152,7 +153,7 @@ const RegistroFrom = () =>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="Imagen" className="form-label">Imagen de Perfil</label>
-                            <input type="file" className="form-control" id="Imagen" accept="image/*"
+                            <input type="file" className="form-control" id="Imagen" name="Imagen" accept="image/*"
                                 onChange={(event)=>{ setImagen(event.target.files[0]); }}/>
                         </div>
                         <div className="mb-3">

@@ -1,5 +1,5 @@
-const cron = require("node-cron");
-const db = require("../DataBase/db"); 
+import cron from "node-cron";
+import db from '../DataBase/db.js';
 
 // Cron: "0 0 1 * *" -> minuto 0, hora 0, día 1 de cada mes
 cron.schedule("0 0 1 * *", () => {

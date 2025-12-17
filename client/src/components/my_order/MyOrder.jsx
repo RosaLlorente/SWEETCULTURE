@@ -49,7 +49,7 @@ const MyOrder = () => {
                                                     <small>Cantidad: {item.cantidad}</small>
                                                 </div>
                                                 <div className="d-flex align-items-center gap-2">
-                                                    <span className="badge bg-primary rounded-pill">${item.subtotal.toFixed(2)}</span>
+                                                    <span className="badge bg-primary rounded-pill">${ Number(item.subtotal).toFixed(2)}</span>
                                                     <Link
                                                         to="/detalle"
                                                         state={{ producto: productoCompleto ? { ...productoCompleto, cantidad: item.cantidad } : item }}
@@ -66,7 +66,7 @@ const MyOrder = () => {
                                 <p className="text-muted">No hay productos en el pedido aún.</p>
                             )}
                             <hr />
-                            <h6>Total: ${miPedido.total?.toFixed(2) || "0.00"}</h6>
+                            <h6>Total: ${ Number(miPedido.total)?.toFixed(2) || "0.00"}</h6>
                             <div className="d-flex justify-content-between mt-3">
                                 <button className="btn btn-danger" onClick={handleCancel}>
                                     Cancelar Pedido

@@ -1,6 +1,7 @@
-const db = require('../db');
+import db from '../db.js';
+import { updateImage } from "../../Multerconfing/cloudinary.js";
 
-const addUser = (req, res) => {
+export const addUser = (req, res) => {
     const {
         Nombre,
         Apellidos,
@@ -12,11 +13,12 @@ const addUser = (req, res) => {
         fecha_registro
     } = req.body;
 
-    const imagen = req.file ? req.file.filename : null;
+    const imagen = req.file ? req.file.path : null; 
+    const imagenPublicId = req.file ? req.file.filename : null;
 
     db.query(
         `INSERT INTO usuarios 
-        (nombre, apellidos, telefono, fecha_nacimiento, imagen, email, contrasena, informacion_publica, fecha_registro)
+        (nombre, apellidos, telefono, fecha_nacimiento, imagen, imagen_public_id, email, contrasena, informacion_publica, fecha_registro)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
             Nombre,
@@ -24,6 +26,7 @@ const addUser = (req, res) => {
             Telefono,
             FechaNacimiento,
             imagen,
+            imagenPublicId,
             Email,
             Password,
             Informacion_publica,
@@ -39,14 +42,14 @@ const addUser = (req, res) => {
     );
 };
 
-const searchUser = (req, res) => {
+export const searchUser = (req, res) => {
  const {
         email,
         contrasena,
     } = req.body;
 
     db.query(
-        "SELECT id_usuario, nombre, apellidos, telefono, fecha_nacimiento, imagen, email, contrasena, informacion_publica, rol FROM usuarios WHERE email = ? AND contrasena = ?",
+        "SELECT id_usuario, nombre, apellidos, telefono, fecha_nacimiento, imagen, imagen_public_id, email, contrasena, informacion_publica, rol FROM usuarios WHERE email = ? AND contrasena = ?",
         [
             email,
             contrasena,
@@ -64,30 +67,54 @@ const searchUser = (req, res) => {
     );
 }
 
-const updateUser = (req, res) => {
+export const updateUser = (req, res) => {
     const { id_usuario } = req.params;
     const { nombre, apellidos, telefono, email, contrasena, informacion_publica, fecha_nacimiento } = req.body;
 
-    const imagen = req.file ? req.file.filename : null;
+    // Obtener public_id de la imagen anterior
+    db.query("SELECT imagen_public_id FROM usuarios WHERE id_usuario = ?", [id_usuario], (err, results) => {
+        if (err) return res.status(500).send("Error al buscar usuario");
+        if (!results.length) return res.status(404).send("Usuario no encontrado");
 
-    const query = imagen 
-        ? "UPDATE usuarios SET nombre=?, imagen=?, apellidos=?, telefono=?, email=?, contrasena=?, fecha_nacimiento=?, informacion_publica=? WHERE id_usuario=?"
-        : "UPDATE usuarios SET nombre=?, apellidos=?, telefono=?, email=?, contrasena=?, fecha_nacimiento=?, informacion_publica=? WHERE id_usuario=?";
+        const oldPublicId = results[0].imagen_public_id;
 
-    const params = imagen
-        ? [nombre, imagen, apellidos, telefono, email, contrasena, fecha_nacimiento, informacion_publica, id_usuario]
-        : [nombre, apellidos, telefono, email, contrasena, fecha_nacimiento, informacion_publica, id_usuario];
+        const updateUserInDb = (imagen = null, newPublicId = null) => {
+            let query;
+            let params;
 
-    db.query(query, params, (err, result) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send("Error al actualizar el usuario");
+            if (imagen) {
+                // Si hay nueva imagen
+                query = "UPDATE usuarios SET nombre=?, imagen=?, imagen_public_id=?, apellidos=?, telefono=?, email=?, contrasena=?, fecha_nacimiento=?, informacion_publica=? WHERE id_usuario=?";
+                params = [nombre, imagen, newPublicId, apellidos, telefono, email, contrasena, fecha_nacimiento, informacion_publica, id_usuario];
+            } else {
+                // Solo datos
+                query = "UPDATE usuarios SET nombre=?, apellidos=?, telefono=?, email=?, contrasena=?, fecha_nacimiento=?, informacion_publica=? WHERE id_usuario=?";
+                params = [nombre, apellidos, telefono, email, contrasena, fecha_nacimiento, informacion_publica, id_usuario];
+            }
+
+            db.query(query, params, (err) => {
+                if (err) return res.status(500).send("Error al actualizar el usuario");
+
+                // Traer el usuario actualizado
+                db.query("SELECT * FROM usuarios WHERE id_usuario = ?", [id_usuario], (err, results) => {
+                    if (err) return res.status(500).send("Error al traer usuario actualizado");
+                    res.status(200).send({ usuario: results[0] });
+                });
+            });
+        };
+
+        if (req.file) {
+             updateUserInDb(req.file.path, req.file.filename);
+        } else {
+            updateUserInDb();
         }
-        res.status(200).send("Usuario actualizado correctamente");
     });
 };
 
-const getTopRatingedUsers = (req, res) => {
+
+
+
+export const getTopRatingedUsers = (req, res) => {
     const sql = `
         SELECT 
             u.id_usuario,
@@ -111,7 +138,3 @@ const getTopRatingedUsers = (req, res) => {
         res.status(200).json(result);
     });
 };
-
-
-
-module.exports = { addUser,searchUser,updateUser,getTopRatingedUsers };

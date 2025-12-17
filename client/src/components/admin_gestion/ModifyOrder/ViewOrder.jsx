@@ -46,7 +46,7 @@ export function ViewOrder({ historiales = [] })
         {
             BuscarTodosLosPedidos();
         }
-    }, []); // solo al montar
+    }, [historiales.length]); // solo al montar
 
     /**
      * Alterna la selección de un pedido en `selectedPedidos`.
@@ -258,7 +258,7 @@ export function ViewOrder({ historiales = [] })
                                     </h2>
                                     <div id={`collapse-${index}`} className="accordion-collapse collapse" data-bs-parent={`#accordion-${index}`}>
                                         <div className="accordion-body">
-                                            {JSON.parse(item.postres).map((postre, i) => (
+                                            {item.postres.map((postre, i) => (
                                                 <div key={i} className="d-flex gap-3 p-2 border rounded mb-2">
                                                     <div>
                                                         <p className="fw-bold mb-1">{postre.nombre}</p>

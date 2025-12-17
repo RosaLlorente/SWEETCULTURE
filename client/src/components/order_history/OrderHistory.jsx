@@ -14,38 +14,36 @@ export function OrderHistory()
     const [listaHistorial, setListaHistorial] = useState([]);
     const [alertMessage, setAlertMessage] = useState("");
     const [alertSeverity, setAlertSeverity] = useState("info");
-    
-    /**
-     * Obtiene todos los pedidos del usuario actual desde el backend.
-     * Actualiza el estado `listaHistorial` con los pedidos obtenidos.
-     * Si no hay historial o ocurre un error, se establece un array vacío.
-     */
-    const BuscarTodosLosPedidosDeUsuario = () => 
-    {
-        axios
-        .get(`http://localhost:3000/getUserOrders/${usuario.id_usuario}`)
-        .then((res) => setListaHistorial(res.data || []))
-        .catch(() => {
-            console.log("No se encontró historial para este usuario");
-            setListaHistorial([]);
-        });
-    };
 
     /**
      * Hook que carga automáticamente el historial de pedidos
      * cada vez que cambia el usuario.
      */
-    useEffect(() => 
-    {
+    useEffect(() => {
+        /**
+         * Obtiene todos los pedidos del usuario actual desde el backend.
+         * Actualiza el estado `listaHistorial` con los pedidos obtenidos.
+         * Si no hay historial o ocurre un error, se establece un array vacío.
+         */
+        const BuscarTodosLosPedidosDeUsuario = () => {
+            axios
+                .get(`http://localhost:3000/getUserOrders/${usuario.id_usuario}`)
+                .then((res) => setListaHistorial(res.data || []))
+                .catch(() => {
+                    console.log("No se encontró historial para este usuario");
+                    setListaHistorial([]);
+                });
+        };
+
         BuscarTodosLosPedidosDeUsuario();
-    }, [usuario]);
+    }, [usuario.id_usuario]);
 
     /**
      * Cancela un pedido específico del historial.
      *
      * 1. Pide confirmación al usuario antes de eliminar.
      * 2. Realiza la petición DELETE al backend.
-     * 3. Actualiza el historial llamando nuevamente a `BuscarTodosLosPedidosDeUsuario`.
+     * 3. Actualiza el historial llamando nuevamente.
      * 4. Muestra alertas de éxito o error según corresponda.
      *
      * @param {number} id_pedido - ID del pedido a eliminar.
@@ -54,18 +52,22 @@ export function OrderHistory()
     {
         if (window.confirm("¿Estás seguro de que quieres eliminar este producto?")) 
         {
-            axios.delete(`http://localhost:3000/deleteOrderHistorial/${id_pedido}`)
-            .then(() => {
-                setAlertMessage("Se ha eliminado el pedido correctamente");
-                setAlertSeverity("success");
-                BuscarTodosLosPedidosDeUsuario(); 
-            })
-            .catch(err => {
-                setAlertMessage("No se pudo eliminar el pedido");
-                setAlertSeverity("error");
-            });
+            axios
+                .delete(`http://localhost:3000/deleteOrderHistorial/${id_pedido}`)
+                .then(() => {
+                    setAlertMessage("Se ha eliminado el pedido correctamente");
+                    setAlertSeverity("success");
+                    axios
+                    .get(`http://localhost:3000/getUserOrders/${usuario.id_usuario}`)
+                    .then((res) => setListaHistorial(res.data || []));
+                })
+                .catch(() => {
+                    setAlertMessage("No se pudo eliminar el pedido");
+                    setAlertSeverity("error");
+                });
         }
     };
+
 
     return (
         <div className="container mt-4" id="OrderH">
@@ -144,7 +146,7 @@ export function OrderHistory()
                                     >
                                         <div className="accordion-body">
 
-                                            {JSON.parse(item.postres).map((postre, i) => (
+                                            {item.postres.map((postre, i) => (
                                                 <div 
                                                     key={i} 
                                                     className="d-flex gap-3 p-2 border rounded mb-2"

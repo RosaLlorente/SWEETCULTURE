@@ -1,21 +1,24 @@
-const db = require('../db'); // Archivo donde exportas tu conexión a MySQL
-const fs = require("fs");
-const path = require("path");
+import db from '../db.js'; // Archivo donde exportas tu conexión a MySQL
+import fs from "fs";
+import path from "path";
+import { updateImage } from "../../Multerconfing/cloudinary.js";
+
 
 // Añadir un producto
-const addProduct = (req, res) => {
+export const addProduct = (req, res) => {
     const { 
         nombre, origen, precio, etiqueta_especial, descripcion, ingredientes,
         disponible, ser_visible, unidades, tiempo_preparacion_minutos,
         tiempo_horneado_minutos, capacidad_horneado, fecha_creacion 
     } = req.body;
 
-    const imagen = req.file ? req.file.filename : "";
+    const imagen = req.file ? req.file.path : null; 
+    const imagen_public_id = req.file ? req.file.filename : null;
 
     db.query(
-        "INSERT INTO postres (nombre, origen, precio, etiqueta_especial, imagen, descripcion, ingredientes, disponible, ser_visible, unidades, tiempo_preparacion_minutos, tiempo_horneado_minutos, capacidad_horneado, fecha_creacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO postres (nombre, origen, precio, etiqueta_especial, imagen,imagen_public_id, descripcion, ingredientes, disponible, ser_visible, unidades, tiempo_preparacion_minutos, tiempo_horneado_minutos, capacidad_horneado, fecha_creacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
-            nombre, origen, precio, etiqueta_especial, imagen, descripcion, ingredientes,
+            nombre, origen, precio, etiqueta_especial, imagen,imagen_public_id, descripcion, ingredientes,
             disponible, ser_visible, unidades, tiempo_preparacion_minutos,
             tiempo_horneado_minutos, capacidad_horneado, fecha_creacion
         ],
@@ -29,7 +32,7 @@ const addProduct = (req, res) => {
     );
 };
 
-const getProducts = (req, res) => {
+export const getProducts = (req, res) => {
     const sql = `
         SELECT p.*, o.id_oferta, o.nombre AS oferta_nombre, o.tipo, o.valor
         FROM postres p
@@ -48,7 +51,7 @@ const getProducts = (req, res) => {
 };
 
 
-const optionSearchProducts = (req, res) => {
+export const optionSearchProducts = (req, res) => {
 
     // 1️⃣ Paises únicos de productos visibles
     db.query("SELECT DISTINCT origen FROM postres WHERE ser_visible = 1", (err, paisesResult) => {
@@ -93,7 +96,7 @@ const optionSearchProducts = (req, res) => {
 };
 
 
-const optionSearchProductsAdmin = (req, res) => {
+export const optionSearchProductsAdmin = (req, res) => {
 
     // 1️⃣ Paises únicos de productos
     db.query("SELECT DISTINCT origen FROM postres", (err, paisesResult) => {
@@ -141,7 +144,7 @@ const optionSearchProductsAdmin = (req, res) => {
 
 
 // Buscar productos según filtros
-const searchProduct = (req, res) => {
+export const searchProduct = (req, res) => {
     const {id_postre, nombre, precioMaximo, pais, ingredientesExcluir,etiquetaEspecial } = req.body;
 
     // Consulta base
@@ -192,97 +195,111 @@ const searchProduct = (req, res) => {
 
 
 
-const updateProduct = (req, res) => {
+export const updateProduct = (req, res) => {
     const { id_postre } = req.params;
-    const { nombre, origen, precio, etiqueta_especial, descripcion, ingredientes,
+    const {
+        nombre, origen, precio, etiqueta_especial, descripcion, ingredientes,
         disponible, ser_visible, unidades, tiempo_preparacion_minutos,
-        tiempo_horneado_minutos, capacidad_horneado } = req.body;
-
-    const newImagen = req.file ? req.file.filename : null;
+        tiempo_horneado_minutos, capacidad_horneado
+    } = req.body;
 
     // 1️⃣ Obtener imagen antigua
-    db.query("SELECT imagen FROM postres WHERE id_postre = ?", [id_postre], (err, result) => {
+    db.query("SELECT imagen_public_id FROM postres WHERE id_postre = ?", [id_postre], (err, result) => {
         if (err) return res.status(500).send("Error al obtener el producto");
         if (result.length === 0) return res.status(404).send("Producto no encontrado");
 
-        const oldImagen = result[0].imagen;
-        const oldImagenPath = oldImagen ? path.join(__dirname, "../../../client/public/ProductImage", oldImagen) : null;
+        const oldPublicId = result[0].imagen_public_id;
 
-        // 2️⃣ Construir query y valores según si hay nueva imagen
-        const query = newImagen
-            ? "UPDATE postres SET nombre=?, origen=?, precio=?, etiqueta_especial=?, imagen=?, descripcion=?, ingredientes=?, disponible=?, ser_visible=?, unidades=?, tiempo_preparacion_minutos=?, tiempo_horneado_minutos=?, capacidad_horneado=? WHERE id_postre=?"
-            : "UPDATE postres SET nombre=?, origen=?, precio=?, etiqueta_especial=?, descripcion=?, ingredientes=?, disponible=?, ser_visible=?, unidades=?, tiempo_preparacion_minutos=?, tiempo_horneado_minutos=?, capacidad_horneado=? WHERE id_postre=?";
+        // 2️⃣ Función para actualizar producto en DB
+        const updateProductInDb = (imagen = null, newPublicId = null) => {
+            let query;
+            let values;
 
-        const values = newImagen
-            ? [nombre, origen, precio, etiqueta_especial, newImagen, descripcion, ingredientes, disponible, ser_visible, unidades, tiempo_preparacion_minutos, tiempo_horneado_minutos, capacidad_horneado, id_postre]
-            : [nombre, origen, precio, etiqueta_especial, descripcion, ingredientes, disponible, ser_visible, unidades, tiempo_preparacion_minutos, tiempo_horneado_minutos, capacidad_horneado, id_postre];
-
-        // 3️⃣ Ejecutar update
-        db.query(query, values, (err2) => {
-            if (err2) return res.status(500).send("Error al actualizar el producto");
-
-            // 4️⃣ Borrar imagen antigua solo si se subió nueva
-            if (newImagen && oldImagenPath && fs.existsSync(oldImagenPath)) {
-                fs.unlink(oldImagenPath, (err3) => {
-                    if (err3) console.log("⚠ No se pudo eliminar la imagen antigua:", err3);
-                });
+            if (imagen) {
+                query = `
+                    UPDATE postres SET 
+                        nombre=?, origen=?, precio=?, etiqueta_especial=?, imagen=?, imagen_public_id=?,
+                        descripcion=?, ingredientes=?, disponible=?, ser_visible=?, 
+                        unidades=?, tiempo_preparacion_minutos=?, tiempo_horneado_minutos=?, 
+                        capacidad_horneado=? 
+                    WHERE id_postre=?`;
+                values = [
+                    nombre, origen, precio, etiqueta_especial, imagen, newPublicId,
+                    descripcion, ingredientes, disponible, ser_visible,
+                    unidades, tiempo_preparacion_minutos, tiempo_horneado_minutos,
+                    capacidad_horneado, id_postre
+                ];
+            } else {
+                query = `
+                    UPDATE postres SET 
+                        nombre=?, origen=?, precio=?, etiqueta_especial=?, 
+                        descripcion=?, ingredientes=?, disponible=?, ser_visible=?, 
+                        unidades=?, tiempo_preparacion_minutos=?, tiempo_horneado_minutos=?, 
+                        capacidad_horneado=? 
+                    WHERE id_postre=?`;
+                values = [
+                    nombre, origen, precio, etiqueta_especial,
+                    descripcion, ingredientes, disponible, ser_visible,
+                    unidades, tiempo_preparacion_minutos, tiempo_horneado_minutos,
+                    capacidad_horneado, id_postre
+                ];
             }
 
-            // 5️⃣ Enviar respuesta
-            return res.status(200).send("Producto actualizado correctamente");
-        });
+            db.query(query, values, (err2) => {
+                if (err2) return res.status(500).send("Error al actualizar el producto");
+
+                // Traer producto actualizado
+                db.query("SELECT * FROM postres WHERE id_postre = ?", [id_postre], (err3, results) => {
+                    if (err3) return res.status(500).send("Error al traer producto actualizado");
+                    res.status(200).send({ producto: results[0] });
+                });
+            });
+        };
+
+        if (req.file) {
+            updateImage(req.file.path, "ProductImage", oldPublicId, function(uploadResult) {
+                if (!uploadResult) {
+                return res.status(500).send("Error al subir la imagen");
+                }
+
+                const imagen = uploadResult.secure_url;
+                const newPublicId = uploadResult.public_id;
+                updateProductInDb(imagen, newPublicId);
+            });
+        } else {
+            updateProductInDb();
+        }
     });
 };
 
 // Eliminar producto
-const deleteProduct = (req, res) => {
-    const { id_postre } = req.params;
-    db.query("SELECT imagen FROM postres WHERE id_postre = ?", [id_postre], (err, result) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send("Error al obtener el producto");
-        }
+export const deleteProduct = (req, res) => {
+    const id_postre = Number(req.params.id_postre);
+    if (isNaN(id_postre)) return res.status(400).send("ID inválido");
+    
+    console.log("Intentando eliminar producto:", id_postre);
 
-        if (result.length === 0) {
-            return res.status(404).send("Producto no encontrado");
-        }
+    db.query("SELECT id_postre FROM postres WHERE id_postre = ?", [id_postre], (err, result) => {
+        if (err) { console.error(err); return res.status(500).send("Error al obtener el producto"); }
+        if (result.length === 0) return res.status(404).send("Producto no encontrado");
 
-        const imagenName = result[0].imagen;
-        const imagenPath = path.join(
-            __dirname,
-            "../../../client/public/ProductImage",
-            imagenName
-        );
-
-        // 2️⃣ Eliminar primero las tablas que dependen estrictamente de POSTRES
         db.query("DELETE FROM DETALLE_PEDIDO WHERE id_postre = ?", [id_postre], (err1) => {
-            if (err1) return res.status(500).send("Error al eliminar detalles de pedidos");
+            if (err1) { console.error("Error DETALLE_PEDIDO:", err1); return res.status(500).send("Error al eliminar detalles de pedidos"); }
 
             db.query("DELETE FROM VALORACIONES_POSTRES WHERE id_postre = ?", [id_postre], (err2) => {
-                if (err2) return res.status(500).send("Error al eliminar valoraciones");
+                if (err2) { console.error("Error VALORACIONES_POSTRES:", err2); return res.status(500).send("Error al eliminar valoraciones"); }
 
                 db.query("DELETE FROM OFERTAS WHERE id_postre = ?", [id_postre], (err3) => {
-                    if (err3) return res.status(500).send("Error al eliminar ofertas");
+                    if (err3) { console.error("Error OFERTAS:", err3); return res.status(500).send("Error al eliminar ofertas"); }
 
-                    db.query("DELETE FROM RANKING_POSTRES WHERE id_postre = ?", [id_postre], (err4) => {
-                        if (err4) return res.status(500).send("Error al eliminar ranking");
+                    db.query("DELETE FROM POSTRES_MAS_VENDIDOS WHERE id_postre = ?", [id_postre], (err5) => {
+                        if (err5) { console.error("Error POSTRES_MAS_VENDIDOS:", err5); return res.status(500).send("Error al eliminar postres más vendidos"); }
 
-                        db.query("DELETE FROM POSTRES_MAS_VENDIDOS WHERE id_postre = ?", [id_postre], (err5) => {
-                            if (err5) return res.status(500).send("Error al eliminar postres más vendidos");
+                        db.query("DELETE FROM POSTRES WHERE id_postre = ?", [id_postre], (err6) => {
+                            if (err6) { console.error("Error POSTRES:", err6); return res.status(500).send("Error al eliminar el producto"); }
 
-                            // 3️⃣ Finalmente eliminar el POSTRE
-                            db.query("DELETE FROM POSTRES WHERE id_postre = ?", [id_postre], (err6) => {
-                                if (err6) return res.status(500).send("Error al eliminar el producto");
-
-                                // 4️⃣ Eliminar la imagen del servidor
-                                fs.unlink(imagenPath, (errImg) => {
-                                    if (errImg) {
-                                        console.log("⚠ No se pudo eliminar la imagen (puede no existir):", errImg);
-                                    }
-
-                                    return res.status(200).send("Producto e imagen eliminados correctamente");
-                                });
-                            });
+                            console.log("Producto eliminado correctamente:", id_postre);
+                            return res.status(200).send("Producto eliminado correctamente");
                         });
                     });
                 });
@@ -291,4 +308,5 @@ const deleteProduct = (req, res) => {
     });
 };
 
-module.exports = { addProduct, getProducts, updateProduct, deleteProduct, optionSearchProducts, optionSearchProductsAdmin, searchProduct};
+
+

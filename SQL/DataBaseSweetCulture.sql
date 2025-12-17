@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS USUARIOS (
   telefono VARCHAR(100),
   fecha_nacimiento DATE,  
   imagen VARCHAR(255),
+  imagen_public_id VARCHAR(255), #Para producción
   email VARCHAR(100) UNIQUE,
   contrasena VARCHAR(255),
   informacion_publica BOOLEAN DEFAULT FALSE,  #Si acepta aparecer en estadísticas (gana descuentos)
@@ -31,6 +32,7 @@ CREATE TABLE IF NOT EXISTS POSTRES (
   precio DECIMAL(8,2),
   etiqueta_especial VARCHAR(100),
   imagen VARCHAR(255),
+  imagen_public_id VARCHAR(255), #Para producción
   unidades INT,
   disponible BOOLEAN DEFAULT TRUE, #No quedan unidades
   ser_visible BOOLEAN DEFAULT TRUE, #Se ve en el catálogo o no

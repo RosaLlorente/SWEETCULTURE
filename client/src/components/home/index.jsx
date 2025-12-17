@@ -82,11 +82,19 @@ export function Inicio()
                                     return (
                                         <div className="col-md-4 mb-3" key={producto.id_postre}>
                                             <div className="card">
-                                                <img
-                                                    src={`/ProductImage/${producto.imagen || "/ProductImage/default.png"}`}
-                                                    className="card-img-top"
-                                                    alt={producto.nombre}
-                                                />
+                                                {!producto.imagen || producto.imagen === "null" ? (
+                                                    <img
+                                                        src="/ProductImage/404product.jpg" 
+                                                        className="card-img-top"
+                                                        alt={producto.nombre}
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={producto.imagen}
+                                                        className="card-img-top"
+                                                        alt={producto.nombre}
+                                                    />
+                                                )}
                                                 <div className="card-body">
                                                     <h5 className="card-title">{producto.nombre}</h5>
                                                     <p className="card-text">

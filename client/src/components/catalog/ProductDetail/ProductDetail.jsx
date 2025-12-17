@@ -31,7 +31,7 @@ const ProductDetail = () => {
         if (!miPedido || !producto) return;
 
         getOrderDetailsEspecificProduct(miPedido.id_pedido, producto.id_postre, setProductoEnPedido);
-    }, [miPedido, producto]);
+    }, [miPedido, producto, getOrderDetailsEspecificProduct]);
 
 
     useEffect(() => {
@@ -135,18 +135,26 @@ const ProductDetail = () => {
                 </div>
 
                 <div className="col-md-6 d-flex flex-column align-items-center">
-
-                    <img 
-                        src={"/ProductImage/" + producto.imagen}
-                        alt={producto.nombre}
-                        className="img-fluid rounded mb-3"
-                        style={{ maxHeight: "300px", objectFit: "cover" }}
-                    />
+                    {!producto.imagen || producto.imagen === "null" ? (
+                        <img 
+                            src="/ProductImage/404product.jpg"
+                            alt={producto.nombre}
+                            className="img-fluid rounded mb-3"
+                            style={{ maxHeight: "300px", objectFit: "cover" }}
+                        />
+                    ) : (
+                        <img 
+                            src={producto.imagen}
+                            alt={producto.nombre}
+                            className="img-fluid rounded mb-3"
+                            style={{ maxHeight: "300px", objectFit: "cover" }}
+                        />
+                    )}
 
                     <div className="mb-3">
                         {renderStars(meanRating)}
                         <span style={{ marginLeft: "8px", fontWeight: "bold", fontSize: "1.2rem" }}>
-                            {meanRating.toFixed(1)} / 5
+                            { Number(meanRating).toFixed(1)} / 5
                         </span>
                     </div>
 

@@ -127,13 +127,10 @@ const ViewProduct = ({ productos }) =>
         // Añadir la nueva imagen si existe
         if (editData.nuevaImagen) 
         {
-            formData.append("imagen", editData.nuevaImagen);
+            formData.append("Imagen", editData.nuevaImagen);
         }
 
-        axios.put(`http://localhost:3000/updateProduct/${id_postre}`, formData, 
-        {
-            headers: { "Content-Type": "multipart/form-data" },
-        })
+        axios.put(`http://localhost:3000/updateProduct/${id_postre}`, formData)
         .then(() => 
         {
             setAlertMessage("Producto modificado correctamente");
@@ -141,7 +138,7 @@ const ViewProduct = ({ productos }) =>
             GetProducts();
             cancelEdit();
         })
-        .catch(err => 
+        .catch(() => 
         {
             setAlertMessage("No se pudo modificar el producto");
             setAlertSeverity("error");
@@ -412,7 +409,7 @@ const ViewProduct = ({ productos }) =>
                                 <td data-label="Imagen">
                                     {editIndex === index ? (
                                         <>
-                                            <img src={"/ProductImage/" + product.imagen} alt={"/ProductImage/" + product.imagen} width="80" />
+                                            <img src={product.imagen} alt={product.nombre} width="80" />
                                             <input
                                                 type="file"
                                                 className="form-control mt-2"
@@ -422,7 +419,11 @@ const ViewProduct = ({ productos }) =>
                                             />
                                         </>
                                     ) : (
-                                        <img src={"/ProductImage/" + product.imagen} alt="" width="80" />
+                                        !product.imagen || product.imagen === "null" ? (
+                                            <img src="/ProductImage/404product.jpg" alt={"/ProductImage/" + product.nombre} width="80" />
+                                        ) : (
+                                            <img src={product.imagen} alt={product.nombre} width="80" />
+                                        )
                                     )}
                                 </td>
 

@@ -98,11 +98,21 @@ const UsersStadistics = () =>
                             {topUsers.map((u, i) => (
                                 <li key={u.id_usuario} className="list-group-item d-flex align-items-center gap-3">
                                     <strong>{i + 1}.</strong>
-                                    <img
-                                        src={`/ProfileUserImage/${u.imagen}`}
-                                        alt={u.nombre}
-                                        style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover" }}
-                                    />
+                                    
+                                    {!u.imagen || u.imagen === "null" ? (
+                                        <img
+                                            src="/ProfileUserImage/DefaultImage.jpg"
+                                            alt={u.nombre}
+                                            style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover" }}
+                                        />
+                                    ) : (
+                                        <img
+                                            src={u.imagen}
+                                            alt={u.nombre}
+                                            style={{ width: "45px", height: "45px", borderRadius: "50%", objectFit: "cover" }}
+                                        />
+                                    )}
+                                    
                                     <div className="flex-grow-1">
                                         {u.nombre} {u.apellidos}
                                     </div>

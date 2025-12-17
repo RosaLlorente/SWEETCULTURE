@@ -127,12 +127,21 @@ const ViewProduct = ({ productos }) =>
                 return (
                     <li key={index}>
                         <Card sx={{ maxWidth: 345 }}>
-                            <CardMedia
-                                component="img"
-                                alt={product.nombre}
-                                height="140"
-                                image={"/ProductImage/" + product.imagen}
-                            />
+                            {!product.imagen || product.imagen === "null" ? (
+                                <CardMedia
+                                    component="img"
+                                    alt={product.nombre}
+                                    height="140"
+                                    image="/ProductImage/404product.jpg"
+                                />
+                            ) : (
+                                <CardMedia
+                                    component="img"
+                                    alt={product.nombre}
+                                    height="140"
+                                    image={product.imagen}
+                                />
+                            )}
                             <CardContent>
                                 <Typography variant="h5">
                                     {product.nombre} temporada: {product.etiqueta_especial}

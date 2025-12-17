@@ -104,7 +104,7 @@ const Perfil = () =>
      */
     const saveEdit = () => 
     {
-        const { error, data } = validateEditUser(editData);
+        const { error} = validateEditUser(editData);
         if (error) 
         {
             setAlertMessage(error);
@@ -123,15 +123,15 @@ const Perfil = () =>
 
         if (editData.nuevaImagen) 
         {
-            formData.append("imagen", editData.nuevaImagen);
+            formData.append("Imagen", editData.nuevaImagen);
         }
 
         axios.put(`http://localhost:3000/updateUser/${usuario.id_usuario}`, formData)
-        .then(() => 
+        .then((res) => 
         {
             const updatedUser = 
             { 
-                ...editData,
+                ...res.data.usuario,
                 informacion_publica: editData.informacion_publica === "true"
             };
             setUsuario(updatedUser);
@@ -174,7 +174,7 @@ const Perfil = () =>
                             {!usuario.imagen || usuario.imagen === "null" ? (
                                 <img src="/ProfileUserImage/DefaultImage.jpg" width="80" alt="Imagen de perfil" />
                             ) : (
-                                <img src={"/ProfileUserImage/" + usuario.imagen} width="80" alt="Imagen de perfil" />
+                                <img src={usuario.imagen} width="80" alt="Imagen de perfil" />
                             )}
 
                             {editMode && (

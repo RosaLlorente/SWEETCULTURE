@@ -81,7 +81,11 @@ const CardCarrusel3D = () => {
 								transform: `rotateY(${idx * angle}deg) translateZ(340px)`
 							}}
 						>
-							<img src={"/ProductImage/" + img} alt={`slide-${idx}`} />
+							{!img || img === "null" ? (
+								<img src="/ProductImage/404product.jpg" alt={`slide-${idx}`} />
+                            ) : (
+                                <img src={img} alt={`slide-${idx}`} />
+                            )}
 						</div>
 					))}
 				</div>

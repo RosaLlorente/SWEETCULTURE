@@ -118,18 +118,26 @@ const TopRatedProduct = () =>
             <div className="top-product-card">
                 <h3 className="section-title">⭐ Producto mejor valorado</h3>
 
-                <img
-                    src={`/ProductImage/${topProduct.imagen}`}
-                    alt={topProduct.nombre}
-                    className="top-product-img"
-                />
+                {!topProduct.imagen || topProduct.imagen === "null" ? (
+                    <img 
+                        src="/ProductImage/404product.jpg"
+                        alt={topProduct.nombre}
+                        className="top-product-img"
+                    />
+                ) : (
+                    <img 
+                        src={topProduct.imagen}
+                        alt={topProduct.nombre}
+                        className="top-product-img"
+                    />
+                )}
 
                 <h4 className="top-product-name">{topProduct.nombre}</h4>
 
                 <div className="rating-stars">
                     {renderStars(meanRating)}
                     <span className="rating-value">
-                        {meanRating.toFixed(1)} / 5
+                        { Number(meanRating).toFixed(1)} / 5
                     </span>
                 </div>
             </div>
