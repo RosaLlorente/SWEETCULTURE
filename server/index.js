@@ -1,11 +1,11 @@
 import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import { upload } from "./Multerconfing/cloudinary.js";
 import {PORT} from "./confing.js";
 import "./ResetEffects/cronJobs.js";
 import multer from "multer";
-dotenv.config();
 
 
 import { addProduct, getProducts, updateProduct, deleteProduct, optionSearchProducts, optionSearchProductsAdmin, searchProduct, } from './DataBase/Controllers/productController.js';
@@ -18,7 +18,11 @@ import { newOrder,getCurrentOrder,addItemToOrder,removeItemFromOrder,getOrderDet
 import {getVentasTotales,getPedidosTotales,getVentasPorEstado,getBestProduct,getTop5SoldProducts,getTop5RatedProducts,getSalesPerProduct,getTotalUsers,getTopUsuarios} from'./DataBase/Controllers/stadisticAdminController.js';
 
 const app = express();
-app.use(cors({ origin: "https://sweetculture.vercel.app/" }));
+app.use(cors({ 
+  origin: ["https://sweetculture.vercel.app", "http://localhost:5173"], // Permite producción y desarrollo local
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(express.json());
 
 
@@ -86,8 +90,8 @@ app.get('/getTotalUsers',getTotalUsers);
 app.get('/getTopUsuarios',getTopUsuarios);
 
 // Iniciar el servidor
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✅ Server is running on port ${PORT}`);
 });
 
 app.use((err, req, res, next) => {
