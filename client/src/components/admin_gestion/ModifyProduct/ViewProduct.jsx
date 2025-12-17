@@ -13,6 +13,7 @@ import Alert from "@mui/material/Alert";
 const ViewProduct = ({ productos }) => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [ListaProductos, setListaProductos] = useState([]);
     const [editIndex, setEditIndex] = useState(null);
     const [editData, setEditData] = useState({});
@@ -27,7 +28,7 @@ const ViewProduct = ({ productos }) =>
     */
     const GetProducts = () => 
     {
-        axios.get("http://localhost:3000/getProducts")
+        axios.get(`${API_URL}/getProducts`)
         .then((response) => setListaProductos(response.data))
         .catch(err => {
             setAlertMessage("No se ha podido mostrar los productos");
@@ -130,7 +131,7 @@ const ViewProduct = ({ productos }) =>
             formData.append("Imagen", editData.nuevaImagen);
         }
 
-        axios.put(`http://localhost:3000/updateProduct/${id_postre}`, formData)
+        axios.put(`${API_URL}/updateProduct/${id_postre}`, formData)
         .then(() => 
         {
             setAlertMessage("Producto modificado correctamente");
@@ -155,7 +156,7 @@ const ViewProduct = ({ productos }) =>
     {
         if (window.confirm("¿Estás seguro de que quieres eliminar este producto?")) 
         {
-            axios.delete(`http://localhost:3000/deleteProduct/${id_postre}`)
+            axios.delete(`${API_URL}/deleteProduct/${id_postre}`)
             .then(() => 
             {
                 setAlertMessage("Se ha eliminado el producto correctamente");
@@ -194,7 +195,7 @@ const ViewProduct = ({ productos }) =>
 
         // Eliminar productos uno por uno
         selectedProducts.forEach(id => {
-            axios.delete(`http://localhost:3000/deleteProduct/${id}`)
+            axios.delete(`${API_URL}/deleteProduct/${id}`)
             .then(() => 
             {
                 // Actualizar la lista de productos después de cada eliminación

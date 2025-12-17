@@ -8,6 +8,7 @@ const SearchOffer = ({onSearch}) =>
 {
 
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [OpcionesBusqueda, setOpcionesBusqueda] = useState({});
     const[NombreOferta, setNombreOferta]= useState("");
     const[TipoOferta, setTipoOferta]= useState("");
@@ -19,7 +20,7 @@ const SearchOffer = ({onSearch}) =>
      * */
     const optionSearchOffers= () => 
     {
-        axios.get("http://localhost:3000/optionSearchOffer")
+        axios.get(`${API_URL}/optionSearchOffer`)
         .then(res => {  
             setOpcionesBusqueda(res.data);
         })
@@ -57,7 +58,7 @@ const SearchOffer = ({onSearch}) =>
         };
 
 
-        axios.post("http://localhost:3000/searchOffer", filtros)
+        axios.post(`${API_URL}/searchOffer`, filtros)
         .then(res => {
                 if(onSearch) onSearch(res.data);
             resetForm();
@@ -71,7 +72,7 @@ const SearchOffer = ({onSearch}) =>
      */
     const showAllOffers = () => 
     {
-        axios.get("http://localhost:3000/getOffers")
+        axios.get(`${API_URL}/getOffers`)
         .then(res => {
             if (onSearch) onSearch(res.data);
             resetForm(); // opcional: limpiar los filtros

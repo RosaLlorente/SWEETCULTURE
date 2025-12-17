@@ -12,6 +12,7 @@ import "../../assets/CSS/SectionUs/SectionUs.css";
 export function SectionUs() 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const { usuario } = useContext(AuthContext);
     const id_usuario = usuario ? usuario.id_usuario : null;
     const [comentario, setComentario] = useState("");
@@ -66,7 +67,7 @@ export function SectionUs()
         formData.append("fecha_valoracion", fecha_valoracion);
 
         axios
-        .post("http://localhost:3000/addRating", formData)
+        .post(`${API_URL}/addRating`, formData)
         .then(() => {
             setAlertMessage("Se ha podido valorar el servicio correctamente");
             setAlertSeverity("success");
@@ -83,7 +84,7 @@ export function SectionUs()
      * Actualiza el estado `valoraciones` con los datos obtenidos del backend.
      */
     useEffect(() => {
-        axios.get("http://localhost:3000/getRatingsServices")
+        axios.get(`${API_URL}3000/getRatingsServices`)
             .then(res => {
                 setValoraciones(res.data);
             })

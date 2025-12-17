@@ -11,6 +11,7 @@ import Alert from "@mui/material/Alert";
 const InicioSesionForm = () => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [email, setEmail] = useState("");
     const [contrasena, setContrasena] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
@@ -72,7 +73,7 @@ const InicioSesionForm = () =>
 
         const DatosLogin = { email, contrasena };
 
-        axios.post("http://localhost:3000/searchUser", DatosLogin)
+        axios.post(`${API_URL}/searchUser`, DatosLogin)
         .then((response) => 
         {
             const user = response.data.usuario;

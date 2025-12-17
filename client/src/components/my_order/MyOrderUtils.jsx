@@ -12,7 +12,7 @@ const MyOrderUtils = () => {
 
     const BucarPedidoActual = () => {
         const id_usuario = usuario.id_usuario;
-        axios.get(`http://localhost:3000/getCurrentOrder/${id_usuario}`)
+        axios.get(`${REACT_APP_API_URL}/getCurrentOrder/${id_usuario}`)
         .then(res => setMiPedido(res.data ? res.data : null))
         .catch(() => 
             {
@@ -26,7 +26,7 @@ const MyOrderUtils = () => {
         if (miPedido && pendingAdd) {
             const { id_postre, cantidad } = pendingAdd;
 
-            axios.post("http://localhost:3000/addItemToOrder", {
+            axios.post(`${REACT_APP_API_URL}/addItemToOrder`, {
                 id_pedido: miPedido.id_pedido,
                 id_postre,
                 cantidad,
@@ -45,7 +45,7 @@ const MyOrderUtils = () => {
     }, [miPedido, pendingAdd]);
 
     const NewOrder = () => {
-        axios.post("http://localhost:3000/newOrder", {
+        axios.post(`${REACT_APP_API_URL}/newOrder`, {
             id_usuario: usuario.id_usuario,
             estado: "en_pedido",
         })
@@ -66,7 +66,7 @@ const MyOrderUtils = () => {
             NewOrder();
             return;
         }
-        axios.post("http://localhost:3000/addItemToOrder", {
+        axios.post(`${REACT_APP_API_URL}/addItemToOrder`, {
             id_pedido: miPedido.id_pedido,
             id_postre: id_postre,
             cantidad: cantidad,
@@ -82,7 +82,7 @@ const MyOrderUtils = () => {
 
     const EliminarProductoAlPedido = (id_postre,cantidad) => {
         if (!miPedido) return;
-        axios.post("http://localhost:3000/removeItemFromOrder", {
+        axios.post(`${REACT_APP_API_URL}/removeItemFromOrder`, {
             id_pedido: miPedido.id_pedido,
             id_postre: id_postre,
             cantidad: cantidad,
@@ -103,7 +103,7 @@ const MyOrderUtils = () => {
         }
 
         axios
-            .get(`http://localhost:3000/getOrderDetailsEspecificProduct/${id_pedido}/${id_postre}`)
+            .get(`${REACT_APP_API_URL}/getOrderDetailsEspecificProduct/${id_pedido}/${id_postre}`)
             .then(res => {
                 if (res.data.length > 0) {
                     console.log("Producto encontrado en el pedido:", res.data[0]);
@@ -131,7 +131,7 @@ const MyOrderUtils = () => {
         }));
 
         // 2️⃣ Insertar en historial
-        axios.post("http://localhost:3000/addToHistorial", {
+        axios.post(`${REACT_APP_API_URL}/addToHistorial`, {
             id_pedido: miPedido.id_pedido,
             id_usuario: usuario.id_usuario,
             total: miPedido.total,
@@ -142,7 +142,7 @@ const MyOrderUtils = () => {
             console.log("Pedido agregado al historial");
 
             // 3️⃣ Cambiar estado del pedido actual
-            axios.post("http://localhost:3000/updateOrderStatus", {
+            axios.post(`${REACT_APP_API_URL}/updateOrderStatus`, {
                 id_pedido: miPedido.id_pedido,
                 estado: "pendiente"
             })
@@ -162,7 +162,7 @@ const MyOrderUtils = () => {
     const CancelOrder = (id_pedido) => {
         if (!miPedido || !id_pedido) return;
 
-        axios.delete("http://localhost:3000/deleteOrder", { data: { id_pedido } })
+        axios.delete(`${REACT_APP_API_URL}/deleteOrder`, { data: { id_pedido } })
         .then(() => {
             BucarPedidoActual();
             console.log("Pedido cancelado correctamente");

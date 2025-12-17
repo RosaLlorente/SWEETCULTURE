@@ -7,6 +7,7 @@ import Alert from "@mui/material/Alert";
 export function ViewOrder({ historiales = [] }) 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [listaHistorial, setListaHistorial] = useState([]);
     const [alertMessage, setAlertMessage] = useState("");
     const [alertSeverity, setAlertSeverity] = useState("info");
@@ -31,7 +32,7 @@ export function ViewOrder({ historiales = [] })
     const BuscarTodosLosPedidos = () => 
     {
         axios
-        .get(`http://localhost:3000/getUsersOrders`)
+        .get(`${API_URL}/getUsersOrders`)
         .then((res) => setListaHistorial(res.data || []))
         .catch(() => setListaHistorial([]));
     };
@@ -80,7 +81,7 @@ export function ViewOrder({ historiales = [] })
         if (!window.confirm(`¿Eliminar ${selectedPedidos.length} pedido(s) seleccionado(s)?`)) return;
 
         Promise.all(selectedPedidos.map(id =>
-            axios.delete(`http://localhost:3000/deleteOrderHistorial/${id}`)
+            axios.delete(`${API_URL}/deleteOrderHistorial/${id}`)
         ))
         .then(() => {
             setAlertMessage("Pedidos eliminados correctamente");
@@ -104,7 +105,7 @@ export function ViewOrder({ historiales = [] })
     {
         if (!window.confirm("¿Estás seguro de eliminar este pedido?")) return;
 
-        axios.delete(`http://localhost:3000/deleteOrderHistorial/${id_historial}`)
+        axios.delete(`${API_URL}/deleteOrderHistorial/${id_historial}`)
         .then(() => {
             setAlertMessage("Se ha eliminado el pedido correctamente");
             setAlertSeverity("success");
@@ -147,7 +148,7 @@ export function ViewOrder({ historiales = [] })
      */
     const saveEdit = () => 
     {
-        axios.post(`http://localhost:3000/updateOrderHistorial`, {
+        axios.post(`${API_URL}/updateOrderHistorial`, {
             id_historial: editData.id_historial,
             estado: editData.estado
         })

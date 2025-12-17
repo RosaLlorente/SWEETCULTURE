@@ -11,6 +11,7 @@ import Alert from "@mui/material/Alert";
 const Perfil = () => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const { usuario, setUsuario } = useContext(AuthContext);
     const [editMode, setEditMode] = useState(false);
     const [editData, setEditData] = useState({});
@@ -126,7 +127,7 @@ const Perfil = () =>
             formData.append("Imagen", editData.nuevaImagen);
         }
 
-        axios.put(`http://localhost:3000/updateUser/${usuario.id_usuario}`, formData)
+        axios.put(`${API_URL}/updateUser/${usuario.id_usuario}`, formData)
         .then((res) => 
         {
             const updatedUser = 

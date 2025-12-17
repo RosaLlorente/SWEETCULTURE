@@ -9,6 +9,7 @@ import '../../../assets/CSS/section_home_components/support_components/TopRatedP
 const TopRatedProduct = () => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [topList, setTopList] = useState([]);
     const [topProduct, setTopProduct] = useState(null);
     const [meanRating, setMeanRating] = useState(0);
@@ -23,7 +24,7 @@ const TopRatedProduct = () =>
      */
     useEffect(() => 
     {
-        axios.get("http://localhost:3000/getTopRatingedProducts")
+        axios.get(`${API_URL}/getTopRatingedProducts`)
         .then(function(resTop) 
     {
             if (resTop.data.length === 0) return;
@@ -33,7 +34,7 @@ const TopRatedProduct = () =>
             const best = resTop.data[0];
             setTopProduct(best);
 
-            axios.get("http://localhost:3000/getMeanRatingProduct/" + best.id_postre)
+            axios.get(`${API_URL}/getMeanRatingProduct/` + best.id_postre)
             .then(function(resMean) 
             {
                 setMeanRating(resMean.data.promedio || 0);

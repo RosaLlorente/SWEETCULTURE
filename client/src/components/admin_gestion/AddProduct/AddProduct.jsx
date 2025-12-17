@@ -9,6 +9,7 @@ import Alert from "@mui/material/Alert";
 export function AddProduct() 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [nombre, setNombre] = useState("");
     const [origen, setOrigen] = useState("");
     const [precio, setPrecio] = useState(""); 
@@ -108,7 +109,7 @@ export function AddProduct()
         formData.append("capacidad_horneado", capacidad_horneado);
         formData.append("fecha_creacion", fecha_creacion);
 
-        Axios.post("http://localhost:3000/addProduct", formData)
+        Axios.post(`${API_URL}/addProduct`, formData)
         .then(() => {
             setAlertMessage("Se ha podido crear el producto correctamente");
             setAlertSeverity("success");

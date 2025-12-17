@@ -7,6 +7,7 @@ import "chart.js/auto";
 const UsersStadistics = () => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [totalUsers, setTotalUsers] = useState(0);
     const [topUsers, setTopUsers] = useState([]);
 
@@ -19,12 +20,12 @@ const UsersStadistics = () =>
     useEffect(() => 
     {
         // Total usuarios
-        axios.get("http://localhost:3000/getTotalUsers")
+        axios.get(`${API_URL}/getTotalUsers`)
         .then(res => setTotalUsers(res.data.total_usuarios))
         .catch(err => console.error(err));
 
         // Top 5 usuarios por ranking
-        axios.get("http://localhost:3000/getTopUsuarios")
+        axios.get(`${API_URL}/getTopUsuarios`)
         .then(res => setTopUsers(res.data))
         .catch(err => console.error(err));
     }, []);

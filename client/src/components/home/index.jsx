@@ -13,6 +13,7 @@ import TopRankingUsers from "./support_components/TopRankingUsers";
 export function Inicio()
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [ofertas, setOfertas] = React.useState([]);
     const [productos, setProductos] = React.useState([]);
     const navigate = useNavigate();
@@ -20,13 +21,13 @@ export function Inicio()
     useEffect(() => 
     {
         // 1️⃣ Traer todas las ofertas
-        fetch("http://localhost:3000/getOffers")
+        fetch(`${API_URL}/getOffers`)
             .then(res => res.json())
             .then(data => setOfertas(data))
             .catch(err => console.log(err));
 
         // 2️⃣ Traer todos los productos
-        fetch("http://localhost:3000/getProducts")
+        fetch(`${API_URL}/getProducts`)
             .then(res => res.json())
             .then(data => setProductos(data))
             .catch(err => console.log(err));

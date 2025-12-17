@@ -9,6 +9,7 @@ import "../../../assets/CSS/SectionUs/Ratings.css";
 const RatingsService = () => 
 {
   //Declaración de constantes
+  const API_URL= process.env.API_URL;
   const [ratingsServices, setRatingsServices] = useState([]);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("");
@@ -29,7 +30,7 @@ const RatingsService = () =>
    */
   const fetchRatings = () => 
   {
-    axios.get("http://localhost:3000/getRatingsServices") // Ajusta la ruta según tu backend
+    axios.get(`${API_URL}/getRatingsServices`) // Ajusta la ruta según tu backend
     .then((res) => 
       setRatingsServices(res.data)
     )

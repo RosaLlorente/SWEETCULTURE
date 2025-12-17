@@ -8,6 +8,7 @@ const SearchProduct = ({ onSearch }) =>
 {
 
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [OpcionesBusqueda, setOpcionesBusqueda] = useState({});
     const[NombreProducto, setNombreProducto]= useState("");
     const[PrecioMaximo, setPrecioMaximo]= useState("");
@@ -22,7 +23,7 @@ const SearchProduct = ({ onSearch }) =>
      */
     const optionSearchProductsAdmin = () => 
     {
-        axios.get("http://localhost:3000/optionSearchProductsAdmin")
+        axios.get(`${API_URL}/optionSearchProductsAdmin`)
         .then(res => {  
             setOpcionesBusqueda(res.data);
         })
@@ -67,7 +68,7 @@ const SearchProduct = ({ onSearch }) =>
         };
 
 
-        axios.post("http://localhost:3000/searchProduct", filtros)
+        axios.post(`${API_URL}/searchProduct`, filtros)
         .then(res => {
                 if(onSearch) onSearch(res.data);
             resetForm();
@@ -81,7 +82,7 @@ const SearchProduct = ({ onSearch }) =>
      */
     const showAllProducts = () => 
     {
-        axios.get("http://localhost:3000/getProducts")
+        axios.get(`${API_URL}/getProducts`)
         .then(res => {
             if (onSearch) onSearch(res.data);
             resetForm(); // opcional: limpiar los filtros

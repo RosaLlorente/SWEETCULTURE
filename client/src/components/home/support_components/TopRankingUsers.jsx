@@ -10,6 +10,7 @@ import '../../../assets/CSS/section_home_components/support_components/TopRankin
 const TopRankingUsers = () => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [topUsers, setTopUsers] = useState([]);
     const [topUser, setTopUser] = useState(null);
 
@@ -26,7 +27,7 @@ const TopRankingUsers = () =>
     {
         const fetchTopUsers = () => 
         {
-            axios.get("http://localhost:3000/getTopRatingedUsers")
+            axios.get(`${API_URL}/getTopRatingedUsers`)
             .then(res => 
             {
                 if (!res.data || res.data.length === 0) return;

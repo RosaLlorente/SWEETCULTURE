@@ -11,6 +11,7 @@ import "../../assets/CSS/catalog/Catalog.css"
 export function Catalog() 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const location = useLocation();
     const [ListaProductos, setListaProductos] = useState([]);
 
@@ -30,7 +31,7 @@ export function Catalog()
         // Filtrar productos por temporada / etiqueta especial
         if (filterTemporada) 
         {
-            axios.post("http://localhost:3000/searchProduct", { etiquetaEspecial: filterTemporada })
+            axios.post(`${API_URL}/searchProduct`, { etiquetaEspecial: filterTemporada })
             .then((response) => setListaProductos(response.data))
             .catch(err => console.error(err));
 
@@ -39,7 +40,7 @@ export function Catalog()
         // Filtrar productos por ID específico
         else if (id_postre) 
         {
-            axios.post("http://localhost:3000/searchProduct", { id_postre })
+            axios.post(`${API_URL}/searchProduct`, { id_postre })
             .then((response) => setListaProductos(response.data))
             .catch(err => console.error(err));
 
@@ -48,7 +49,7 @@ export function Catalog()
         // Obtener todos los productos sin filtros
         else 
         {
-            axios.get("http://localhost:3000/getProducts")
+            axios.get(`${API_URL}/getProducts`)
             .then((response) => setListaProductos(response.data))
             .catch(err => console.error(err));
         }

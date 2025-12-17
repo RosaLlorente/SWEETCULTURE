@@ -9,6 +9,7 @@ import Alert from "@mui/material/Alert";
 const RegistroFrom = () => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [nombre, setNombre] = useState("");
     const [apellidos, setApellidos] = useState("");
     const [telefono, setTelefono] = useState("");
@@ -105,7 +106,7 @@ const RegistroFrom = () =>
         formData.append("fecha_registro", fecha_registro);
         console.log(imagen);
 
-        axios.post("http://localhost:3000/addUser", formData)
+        axios.post(`${API_URL}/addUser`, formData)
         .then((response) => 
         {
             setAlertMessage("Usuario registrado correctamente");

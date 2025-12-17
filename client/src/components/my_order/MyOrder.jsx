@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const MyOrder = () => {
+    const API_URL= process.env.API_URL;
     const { miPedido, CancelOrder, DoOrder } = MyOrderUtils();
     const [productosCatalogo, setProductosCatalogo] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:3000/getProducts")
+        axios.get(`${API_URL}/getProducts`)
             .then(res => setProductosCatalogo(res.data))
             .catch(() => setProductosCatalogo([]));
     }, []);

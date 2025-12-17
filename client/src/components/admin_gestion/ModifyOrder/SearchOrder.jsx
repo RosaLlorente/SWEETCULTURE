@@ -8,6 +8,7 @@ import "../../../assets/CSS/admin_gestion/Modify_Order/SearchOrder.css";
 const SearchOrder = ({ onSearch }) => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [OpcionesBusqueda, setOpcionesBusqueda] = useState({});
     const [idHistorial, setIdHistorial] = useState("");
     const [idUsuario, setIdUsuario] = useState("");
@@ -64,7 +65,7 @@ const SearchOrder = ({ onSearch }) =>
         };
 
 
-        axios.post("http://localhost:3000/searchHistorial", filtros)
+        axios.post(`${API_URL}/searchHistorial`, filtros)
         .then(res => {
             if (onSearch) onSearch(res.data);
             resetForm();
@@ -78,7 +79,7 @@ const SearchOrder = ({ onSearch }) =>
      */
     const showAllHistorial = () => 
     {
-        axios.get("http://localhost:3000/getUsersOrders")
+        axios.get(`${API_URL}/getUsersOrders`)
             .then(res => {
                 if (onSearch) onSearch(res.data);
                 resetForm();

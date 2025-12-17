@@ -7,6 +7,7 @@ import "chart.js/auto";
 const SalesStadistics = () => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [ventas, setVentas] = useState({ total_pedidos: 0, ventas_totales: 0 });
     const [ventasAll, setVentasAll] = useState({ total_pedidos: 0, ventas_totales: 0 });
     const [ventasPorEstado, setVentasPorEstado] = useState([]);
@@ -25,17 +26,17 @@ const SalesStadistics = () =>
     useEffect(() => 
     {
         // Pedidos completados
-        axios.get("http://localhost:3000/getVentasTotales")
+        axios.get(`${API_URL}/getVentasTotales`)
         .then(res => setVentas(res.data))
         .catch(err => console.error(err));
 
         // Todos los pedidos
-        axios.get("http://localhost:3000/getPedidosTotales")
+        axios.get(`${API_URL}/getPedidosTotales`)
         .then(res => setVentasAll(res.data))
         .catch(err => console.error(err));
 
         // Pedidos agrupados por estado
-        axios.get("http://localhost:3000/getVentasPorEstado")
+        axios.get(`${API_URL}/getVentasPorEstado`)
         .then(res => setVentasPorEstado(res.data))
         .catch(err => console.error(err));
     }, []);

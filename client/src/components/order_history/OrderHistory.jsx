@@ -10,6 +10,7 @@ import "../../assets/CSS/order_history/OrderHistory.css";
 export function OrderHistory() 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const { usuario } = useContext(AuthContext);
     const [listaHistorial, setListaHistorial] = useState([]);
     const [alertMessage, setAlertMessage] = useState("");
@@ -27,7 +28,7 @@ export function OrderHistory()
          */
         const BuscarTodosLosPedidosDeUsuario = () => {
             axios
-                .get(`http://localhost:3000/getUserOrders/${usuario.id_usuario}`)
+                .get(`${API_URL}/getUserOrders/${usuario.id_usuario}`)
                 .then((res) => setListaHistorial(res.data || []))
                 .catch(() => {
                     console.log("No se encontró historial para este usuario");
@@ -53,12 +54,12 @@ export function OrderHistory()
         if (window.confirm("¿Estás seguro de que quieres eliminar este producto?")) 
         {
             axios
-                .delete(`http://localhost:3000/deleteOrderHistorial/${id_pedido}`)
+                .delete(`${API_URL}/deleteOrderHistorial/${id_pedido}`)
                 .then(() => {
                     setAlertMessage("Se ha eliminado el pedido correctamente");
                     setAlertSeverity("success");
                     axios
-                    .get(`http://localhost:3000/getUserOrders/${usuario.id_usuario}`)
+                    .get(`${API_URL}/getUserOrders/${usuario.id_usuario}`)
                     .then((res) => setListaHistorial(res.data || []));
                 })
                 .catch(() => {

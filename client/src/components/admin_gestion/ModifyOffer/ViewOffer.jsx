@@ -10,6 +10,7 @@ import Alert from "@mui/material/Alert";
 const ViewOffer = ({ofertas}) => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [ListaOfertas, setListaOfertas] = useState([]);
     const [editIndex, setEditIndex] = useState(null);
     const [editData, setEditData] = useState({});
@@ -24,7 +25,7 @@ const ViewOffer = ({ofertas}) =>
      */
     useEffect(() => 
     {
-        axios.get("http://localhost:3000/getProducts")
+        axios.get(`${API_URL}/getProducts`)
         .then((res) => setPostres(res.data))
         .catch((err) => console.error(err));
     }, []);
@@ -36,7 +37,7 @@ const ViewOffer = ({ofertas}) =>
      */
     const GetOffers = () => 
     {
-        axios.get("http://localhost:3000/GetOffers")
+        axios.get(`${API_URL}/GetOffers`)
         .then((response) => setListaOfertas(response.data))
         .catch(err => {
             setAlertMessage("No se ha podido mostrar las ofertas");
@@ -112,7 +113,7 @@ const ViewOffer = ({ofertas}) =>
             return;
         }
 
-        axios.put(`http://localhost:3000/updateOffer/${id_oferta}`, formData,)
+        axios.put(`${API_URL}/updateOffer/${id_oferta}`, formData,)
         .then(() => {
             setAlertMessage("Oferta modificada correctamente");
             setAlertSeverity("success");
@@ -135,7 +136,7 @@ const ViewOffer = ({ofertas}) =>
     {
         if (window.confirm("¿Estás seguro de que quieres eliminar esta oferta?")) 
         {
-            axios.delete(`http://localhost:3000/deleteOffer/${id_oferta}`)
+            axios.delete(`${API_URL}/deleteOffer/${id_oferta}`)
             .then(() => {
                 setAlertMessage("Se ha eliminado la oferta correctamente");
                 setAlertSeverity("success");
@@ -168,7 +169,7 @@ const ViewOffer = ({ofertas}) =>
 
         // Eliminar productos uno por uno
         SelectedOffers.forEach(id => {
-            axios.delete(`http://localhost:3000/deleteOffer/${id}`)
+            axios.delete(`${API_URL}/deleteOffer/${id}`)
                 .then(() => {
                     // Actualizar la lista de productos después de cada eliminación
                     GetOffers();

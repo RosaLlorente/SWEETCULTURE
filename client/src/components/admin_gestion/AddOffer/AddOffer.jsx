@@ -9,6 +9,7 @@ import Alert from "@mui/material/Alert";
 export function AddOffer() 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [nombre, setNombre] = useState("");
     const [tipo, setTipo] = useState(""); 
     const [valor, setValor] = useState(""); 
@@ -28,7 +29,7 @@ export function AddOffer()
      */
     useEffect(() => 
     {
-        Axios.get("http://localhost:3000/getProducts")
+        Axios.get(`${API_URL}/getProducts`)
         .then((res) => setPostres(res.data))
         .catch((err) => console.error(err));
     }, []);
@@ -104,7 +105,7 @@ export function AddOffer()
         formData.append("ser_visible", ser_visible ? 1 : 0);
         formData.append("fecha_creacion", fecha_creacion);
 
-        Axios.post("http://localhost:3000/addOffer", formData)
+        Axios.post(`${API_URL}/addOffer`, formData)
         .then((res) => {
             setAlertMessage("Oferta añadida correctamente");
             setAlertSeverity("success");

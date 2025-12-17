@@ -8,6 +8,7 @@
     const SearchProduct = ({ onSearch }) => 
     {
         //Declaración de constantes
+        const API_URL= process.env.API_URL;
         const [OpcionesBusqueda, setOpcionesBusqueda] = useState({});
         const[NombreProducto, setNombreProducto]= useState("");
         const[PrecioMaximo, setPrecioMaximo]= useState("");
@@ -21,7 +22,7 @@
          */
         const optionSearchProducts = () => 
         {
-            axios.get("http://localhost:3000/optionSearchProducts")
+            axios.get(`${API_URL}/optionSearchProducts`)
             .then(res => {  
                 setOpcionesBusqueda(res.data);
             })
@@ -65,7 +66,7 @@
             };
 
 
-            axios.post("http://localhost:3000/searchProduct", filtros)
+            axios.post(`${API_URL}/searchProduct`, filtros)
             .then(res => {
                 if(onSearch) onSearch(res.data);
                 resetForm();
@@ -79,7 +80,7 @@
          */
         const showAllProducts = () => 
         {
-            axios.get("http://localhost:3000/getProducts")
+            axios.get(`${API_URL}/getProducts`)
             .then(res => {
                 if (onSearch) onSearch(res.data);
                 resetForm(); // opcional: limpiar los filtros

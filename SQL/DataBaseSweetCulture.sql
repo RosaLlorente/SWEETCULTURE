@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS OFERTAS (
     fecha_fin DATE,
     ser_visible BOOLEAN DEFAULT TRUE,
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_postre) REFERENCES postres(id_postre)
+    FOREIGN KEY (id_postre) REFERENCES POSTRES(id_postre)
 );
 
 -- ============================================
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS DESCUENTOS (
   fecha_fin DATE,
   tipo_descuento ENUM('Top1','Top2hasta5','cumpleanos'),
   estado ENUM('activo','cajeado','caducado') DEFAULT 'activo',
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+  FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
 );
 
 -- ============================================
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS PEDIDOS (
   fecha_entrega_estimada DATETIME NULL,  #Se calcula según los postres y disponibilidad
   estado ENUM('en_pedido','pendiente','en_preparacion','recogido','cancelado') DEFAULT 'en_pedido',
   total DECIMAL(8,2),
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+  FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
 );
 
 -- ============================================
@@ -97,8 +97,8 @@ CREATE TABLE IF NOT EXISTS DETALLE_PEDIDO (
   cantidad INT,
   precio_unitario DECIMAL(10,2),
   subtotal DECIMAL(8,2),
-  FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido),
-  FOREIGN KEY (id_postre) REFERENCES postres(id_postre)
+  FOREIGN KEY (id_pedido) REFERENCES PEDIDOS(id_pedido),
+  FOREIGN KEY (id_postre) REFERENCES POSTRES(id_postre)
 );
 
 -- ============================================
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS RANKING_USUARIOS (
   id_usuario INT PRIMARY KEY,
   total_compras INT DEFAULT 0,
   ranking_general INT DEFAULT 0,
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+  FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
 );
 
 -- ============================================
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS RANKING_USUARIOS (
 CREATE TABLE IF NOT EXISTS POSTRES_MAS_VENDIDOS (
   id_postre INT PRIMARY KEY,
   ventas_totales INT DEFAULT 0,
-  FOREIGN KEY (id_postre) REFERENCES postres(id_postre)
+  FOREIGN KEY (id_postre) REFERENCES POSTRES(id_postre)
 );
 
 
@@ -145,8 +145,8 @@ CREATE TABLE IF NOT EXISTS VALORACIONES_POSTRES (
   puntuacion INT CHECK (puntuacion BETWEEN 1 AND 5),
   comentario TEXT,
   fecha_valoracion DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
-  FOREIGN KEY (id_postre) REFERENCES postres(id_postre)
+  FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario),
+  FOREIGN KEY (id_postre) REFERENCES POSTRES(id_postre)
 );
 
 -- ============================================
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS VALORACIONES_SERVICIO (
   puntuacion INT CHECK (puntuacion BETWEEN 1 AND 5),
   comentario TEXT,
   fecha_valoracion DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+  FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
 );
 
 
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS ASISTENTE_IA (
   comando VARCHAR(255),
   respuesta TEXT,
   fecha_interaccion DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+  FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
 );
 
 

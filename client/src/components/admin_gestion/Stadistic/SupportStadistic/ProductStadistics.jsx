@@ -7,6 +7,7 @@ import "chart.js/auto";
 const ProductStadistics = () => 
 {
     //Declaración de constantes
+    const API_URL= process.env.API_URL;
     const [bestProduct, setBestProduct] = useState(null);
     const [topSold, setTopSold] = useState([]);
     const [topRated, setTopRated] = useState([]);
@@ -27,22 +28,22 @@ const ProductStadistics = () =>
     useEffect(() => 
     {
         // Mejor postre
-        axios.get("http://localhost:3000/getBestProduct")
+        axios.get(`${API_URL}/getBestProduct`)
         .then(res => setBestProduct(res.data))
         .catch(err => console.error(err));
 
         // Top 5 más vendidos
-        axios.get("http://localhost:3000/getTop5SoldProducts")
+        axios.get(`${API_URL}/getTop5SoldProducts`)
         .then(res => setTopSold(res.data))
         .catch(err => console.error(err));
 
         // Top 5 mejor valorados
-        axios.get("http://localhost:3000/getTop5RatedProducts")
+        axios.get(`${API_URL}/getTop5RatedProducts`)
         .then(res => setTopRated(res.data))
         .catch(err => console.error(err));
 
         // Ventas por producto
-        axios.get("http://localhost:3000/getSalesPerProduct")
+        axios.get(`${API_URL}/getSalesPerProduct`)
         .then(res => setSalesPerProduct(res.data))
         .catch(err => console.error(err));
     }, []);

@@ -7,6 +7,7 @@ import {validateRating} from "../../../utils/formValidators"
 import Alert from "@mui/material/Alert";
 
 const ProductDetail = () => {
+    const API_URL= process.env.API_URL;
     const location = useLocation();
     const { producto } = location.state || {};
     const [dejarValoracion, setDejarValoracion] = useState(false);
@@ -37,7 +38,7 @@ const ProductDetail = () => {
     useEffect(() => {
         if (!id_postre) return;
 
-        axios.get(`http://localhost:3000/getMeanRatingProduct/${id_postre}`)
+        axios.get(`${API_URL}/getMeanRatingProduct/${id_postre}`)
             .then(res => {
                 setMeanRating(res.data.promedio || 0);
             })
@@ -81,12 +82,12 @@ const ProductDetail = () => {
         formData.append("fecha_valoracion", fecha_valoracion);
 
         axios
-        .post("http://localhost:3000/addRatingProduct", formData)
+        .post(`${API_URL}/addRatingProduct`, formData)
         .then(() => {
             setAlertMessage("Se ha podido valorar el postre correctamente");
             setAlertSeverity("success");
             resetForm();
-            return axios.get(`http://localhost:3000/getMeanRatingProduct/${id_postre}`);
+            return axios.get(`${API_URL}/getMeanRatingProduct/${id_postre}`);
         })
         .then(res => {
             setMeanRating(res.data.promedio || 0);

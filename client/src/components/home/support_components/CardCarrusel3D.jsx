@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import "../../../assets/CSS/section_home_components/support_components/CardCarrusel3D.css";
 
 const CardCarrusel3D = () => {
+	const API_URL= process.env.API_URL;
 	/**
 	 * Función que obtiene hasta 10 imágenes aleatorias de productos visibles desde el backend.
 	 *
@@ -19,7 +20,7 @@ const CardCarrusel3D = () => {
 	const get10RandomImages = async () => 
 	{
 		try {
-			const response = await axios.get("http://localhost:3000/getProducts");
+			const response = await axios.get(`${API_URL}/getProducts`);
 			const products = response.data;
 
 			// Filtramos solo los productos visibles
