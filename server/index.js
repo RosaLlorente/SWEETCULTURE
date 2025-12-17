@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
+const app = express();
 import cors from "cors";
 import { upload } from "./Multerconfing/cloudinary.js";
 import {PORT} from "./confing.js";
