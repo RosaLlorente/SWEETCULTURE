@@ -7,7 +7,7 @@ export const addRating = (req, res) => {
 
 
     db.query(
-        "INSERT INTO valoraciones_servicio (id_usuario,comentario,puntuacion,fecha_valoracion) VALUES (?,?,?,?)",
+        "INSERT INTO VALORACIONES_SERVICIO (id_usuario,comentario,puntuacion,fecha_valoracion) VALUES (?,?,?,?)",
         [
             id_usuario,comentario,puntuacion,fecha_valoracion
         ],
@@ -22,7 +22,7 @@ export const addRating = (req, res) => {
 };
 
 export const getRatingsServices = (req, res) => {
-    db.query(`SELECT vs.*, u.nombre, u.imagen FROM valoraciones_servicio vs INNER JOIN usuarios u ON vs.id_usuario = u.id_usuario`, 
+    db.query(`SELECT vs.*, u.nombre, u.imagen FROM VALORACIONES_SERVICIO vs INNER JOIN USUARIOS u ON vs.id_usuario = u.id_usuario`, 
         (err, results) => {
         if (err) {
             console.log(err);

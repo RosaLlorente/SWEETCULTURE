@@ -7,7 +7,7 @@ export const addRatingProduct = (req, res) => {
 
 
     db.query(
-        "INSERT INTO valoraciones_postres (id_usuario,id_postre,comentario,puntuacion,fecha_valoracion) VALUES (?,?,?,?,?)",
+        "INSERT INTO VALORACIONES_POSTRES (id_usuario,id_postre,comentario,puntuacion,fecha_valoracion) VALUES (?,?,?,?,?)",
         [
             id_usuario,id_postre,comentario,puntuacion,fecha_valoracion
         ],
@@ -33,9 +33,9 @@ export const getRatingsProduct = (req, res) => {
             u.imagen AS imagen_usuario,
             p.nombre AS nombre_postre,
             p.imagen AS imagen_postre
-        FROM valoraciones_postres vp
-        INNER JOIN usuarios u ON vp.id_usuario = u.id_usuario
-        INNER JOIN postres p ON vp.id_postre = p.id_postre`, 
+        FROM VALORACIONES_POSTRES vp
+        INNER JOIN USUARIOS u ON vp.id_usuario = u.id_usuario
+        INNER JOIN POSTRES p ON vp.id_postre = p.id_postre`, 
         (err, results) => {
         if (err) {
             console.log(err);
@@ -53,7 +53,7 @@ export const getRatingsProduct = (req, res) => {
 export const getMeanRatingProduct = (req, res) => {
     const { id_postre } = req.params;
     db.query(
-        "SELECT AVG(puntuacion) AS promedio FROM valoraciones_postres WHERE id_postre = ?",
+        "SELECT AVG(puntuacion) AS promedio FROM VALORACIONES_POSTRES WHERE id_postre = ?",
         [id_postre],
         (err, results) => {
             if (err) {
@@ -73,7 +73,7 @@ export const getTopRatingedProducts = (req, res) => {
     db.query(
         `SELECT p.*, AVG(vp.puntuacion) AS promedio
             FROM postres p
-            JOIN valoraciones_postres vp ON p.id_postre = vp.id_postre
+            JOIN VALORACIONES_POSTRES vp ON p.id_postre = vp.id_postre
             GROUP BY p.id_postre
             ORDER BY promedio DESC
             LIMIT 5`,

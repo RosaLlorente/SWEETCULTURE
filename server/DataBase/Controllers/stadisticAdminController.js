@@ -42,8 +42,8 @@ export const getVentasPorEstado = (req, res) => {
 export const getBestProduct = (req, res) => {
     db.query(
         `SELECT p.id_postre, p.nombre, p.imagen, pmv.ventas_totales
-        FROM postres p
-        LEFT JOIN postres_mas_vendidos pmv ON p.id_postre = pmv.id_postre
+        FROM POSTRES p
+        LEFT JOIN POSTRES_MAS_VENDIDOS pmv ON p.id_postre = pmv.id_postre
         ORDER BY pmv.ventas_totales DESC
         LIMIT 1`,
         (err, results) => {
@@ -57,8 +57,8 @@ export const getBestProduct = (req, res) => {
 export const getTop5SoldProducts = (req, res) => {
     db.query(
         `SELECT p.id_postre, p.nombre, p.imagen, pmv.ventas_totales
-        FROM postres p
-        LEFT JOIN postres_mas_vendidos pmv ON p.id_postre = pmv.id_postre
+        FROM POSTRES p
+        LEFT JOIN POSTRES_MAS_VENDIDOS pmv ON p.id_postre = pmv.id_postre
         ORDER BY pmv.ventas_totales DESC
         LIMIT 5`,
         (err, results) => {
@@ -72,8 +72,8 @@ export const getTop5SoldProducts = (req, res) => {
 export const getTop5RatedProducts = (req, res) => {
     db.query(
         `SELECT p.id_postre, p.nombre, p.imagen, AVG(v.puntuacion) AS promedio
-        FROM postres p
-        LEFT JOIN valoraciones_postres v ON p.id_postre = v.id_postre
+        FROM POSTRES p
+        LEFT JOIN VALORACIONES_POSTRES v ON p.id_postre = v.id_postre
         GROUP BY p.id_postre
         ORDER BY promedio DESC
         LIMIT 5`,
@@ -110,7 +110,7 @@ export const getSalesPerProduct = (req, res) => {
 // 3️⃣ Usuarios
 export const getTotalUsers = (req, res) => {
     db.query(
-        `SELECT COUNT(*) AS total_usuarios FROM usuarios`,
+        `SELECT COUNT(*) AS total_usuarios FROM USUARIOS`,
         (err, results) => {
             if (err) return res.status(500).json({ error: err });
             res.json(results[0]);
@@ -128,8 +128,8 @@ export const getTopUsuarios = (req, res) => {
             u.imagen,
             r.total_compras,
             r.ranking_general
-        FROM ranking_usuarios r
-        JOIN usuarios u ON r.id_usuario = u.id_usuario
+        FROM RANKING_USUARIOS r
+        JOIN USUARIOS u ON r.id_usuario = u.id_usuario
         ORDER BY r.ranking_general DESC
         LIMIT 5`,
         (err, results) => {
@@ -146,7 +146,7 @@ export const getTopUsuarios = (req, res) => {
 // 4️⃣ Ofertas
 export const getOfertas = (req, res) => {
     db.query(
-        `SELECT COUNT(*) AS total_ofertas FROM ofertas WHERE ser_visible = TRUE`,
+        `SELECT COUNT(*) AS total_ofertas FROM OFERTAS WHERE ser_visible = TRUE`,
         (err, results) => {
             if (err) return res.status(500).json({ error: err });
             res.json(results[0]);
@@ -158,9 +158,9 @@ export const getOfertas = (req, res) => {
 export const getInfoGeneral = (req, res) => {
     db.query(
         `SELECT 
-            (SELECT COUNT(*) FROM postres) AS total_productos,
-            (SELECT COUNT(*) FROM usuarios WHERE informacion_publica = TRUE) AS usuarios_publicos,
-            (SELECT COUNT(*) FROM asistente_ia) AS interacciones_ia`,
+            (SELECT COUNT(*) FROM POSTRES) AS total_productos,
+            (SELECT COUNT(*) FROM USUARIOS WHERE informacion_publica = TRUE) AS usuarios_publicos,
+            (SELECT COUNT(*) FROM ASISTENTE_IA) AS interacciones_ia`,
         (err, results) => {
             if (err) return res.status(500).json({ error: err });
             res.json(results[0]);

@@ -1,5 +1,4 @@
 import db from '../db.js';
-import { updateImage } from "../../Multerconfing/cloudinary.js";
 
 export const addUser = (req, res) => {
     const {
@@ -17,7 +16,7 @@ export const addUser = (req, res) => {
     const imagenPublicId = req.file ? req.file.filename : null;
 
     db.query(
-        `INSERT INTO usuarios 
+        `INSERT INTO USUARIOS 
         (nombre, apellidos, telefono, fecha_nacimiento, imagen, imagen_public_id, email, contrasena, informacion_publica, fecha_registro)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
@@ -49,7 +48,7 @@ export const searchUser = (req, res) => {
     } = req.body;
 
     db.query(
-        "SELECT id_usuario, nombre, apellidos, telefono, fecha_nacimiento, imagen, imagen_public_id, email, contrasena, informacion_publica, rol FROM usuarios WHERE email = ? AND contrasena = ?",
+        "SELECT id_usuario, nombre, apellidos, telefono, fecha_nacimiento, imagen, imagen_public_id, email, contrasena, informacion_publica, rol FROM USUARIOS WHERE email = ? AND contrasena = ?",
         [
             email,
             contrasena,
@@ -72,7 +71,7 @@ export const updateUser = (req, res) => {
     const { nombre, apellidos, telefono, email, contrasena, informacion_publica, fecha_nacimiento } = req.body;
 
     // Obtener public_id de la imagen anterior
-    db.query("SELECT imagen_public_id FROM usuarios WHERE id_usuario = ?", [id_usuario], (err, results) => {
+    db.query("SELECT imagen_public_id FROM USUARIOS WHERE id_usuario = ?", [id_usuario], (err, results) => {
         if (err) return res.status(500).send("Error al buscar usuario");
         if (!results.length) return res.status(404).send("Usuario no encontrado");
 
@@ -84,11 +83,11 @@ export const updateUser = (req, res) => {
 
             if (imagen) {
                 // Si hay nueva imagen
-                query = "UPDATE usuarios SET nombre=?, imagen=?, imagen_public_id=?, apellidos=?, telefono=?, email=?, contrasena=?, fecha_nacimiento=?, informacion_publica=? WHERE id_usuario=?";
+                query = "UPDATE USUARIOS SET nombre=?, imagen=?, imagen_public_id=?, apellidos=?, telefono=?, email=?, contrasena=?, fecha_nacimiento=?, informacion_publica=? WHERE id_usuario=?";
                 params = [nombre, imagen, newPublicId, apellidos, telefono, email, contrasena, fecha_nacimiento, informacion_publica, id_usuario];
             } else {
                 // Solo datos
-                query = "UPDATE usuarios SET nombre=?, apellidos=?, telefono=?, email=?, contrasena=?, fecha_nacimiento=?, informacion_publica=? WHERE id_usuario=?";
+                query = "UPDATE USUARIOS SET nombre=?, apellidos=?, telefono=?, email=?, contrasena=?, fecha_nacimiento=?, informacion_publica=? WHERE id_usuario=?";
                 params = [nombre, apellidos, telefono, email, contrasena, fecha_nacimiento, informacion_publica, id_usuario];
             }
 
@@ -96,7 +95,7 @@ export const updateUser = (req, res) => {
                 if (err) return res.status(500).send("Error al actualizar el usuario");
 
                 // Traer el usuario actualizado
-                db.query("SELECT * FROM usuarios WHERE id_usuario = ?", [id_usuario], (err, results) => {
+                db.query("SELECT * FROM USUARIOS WHERE id_usuario = ?", [id_usuario], (err, results) => {
                     if (err) return res.status(500).send("Error al traer usuario actualizado");
                     res.status(200).send({ usuario: results[0] });
                 });
@@ -124,7 +123,7 @@ export const getTopRatingedUsers = (req, res) => {
             r.ranking_general,
             r.total_compras
         FROM RANKING_USUARIOS r
-        INNER JOIN usuarios u ON u.id_usuario = r.id_usuario
+        INNER JOIN USUARIOS u ON u.id_usuario = r.id_usuario
         WHERE u.informacion_publica = TRUE
         ORDER BY r.ranking_general DESC
         LIMIT 5

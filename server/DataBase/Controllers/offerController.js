@@ -11,7 +11,7 @@ export const addOffer = (req, res) => {
     }
 
     db.query(
-        "INSERT INTO ofertas (nombre,tipo,valor,id_postre,fecha_inicio,fecha_fin,ser_visible,fecha_creacion) VALUES (?,?,?,?,?,?,?,?)",
+        "INSERT INTO OFERTAS (nombre,tipo,valor,id_postre,fecha_inicio,fecha_fin,ser_visible,fecha_creacion) VALUES (?,?,?,?,?,?,?,?)",
         [
             nombre,tipo,valorOferta,id_postre,fecha_inicio,fecha_fin,ser_visible,fecha_creacion
         ],
@@ -27,7 +27,7 @@ export const addOffer = (req, res) => {
 
 // Obtener productos
 export const getOffers = (req, res) => {
-    db.query("SELECT * FROM ofertas", (err, result) => {
+    db.query("SELECT * FROM OFERTAS", (err, result) => {
         if (err) {
             console.log(err);
             return res.status(500).send("Error al obtener las ofertas");
@@ -37,7 +37,7 @@ export const getOffers = (req, res) => {
 };
 
 export const optionSearchOffer = (req, res) => {
-    db.query("SELECT DISTINCT tipo FROM ofertas", (err, tipoResult) => {
+    db.query("SELECT DISTINCT tipo FROM OFERTAS", (err, tipoResult) => {
         if (err) {
             console.log(err);
             return res.status(500).send("Error al obtener tipos de ofertas");
@@ -50,7 +50,7 @@ export const optionSearchOffer = (req, res) => {
 export const searchOffer = (req, res) => {
     const { nombre, tipo } = req.body;  
     
-    let query = "SELECT * FROM ofertas WHERE 1=1";
+    let query = "SELECT * FROM OFERTAS WHERE 1=1";
     const params = [];
 
     if (nombre) {
@@ -86,7 +86,7 @@ export const updateOffer = (req, res) => {
     fecha_fin = fecha_fin ? fecha_fin.split('T')[0] : null;
 
     const query = `
-        UPDATE ofertas
+        UPDATE OFERTAS
         SET nombre = ?, tipo = ?, valor = ?, id_postre = ?, fecha_inicio = ?, fecha_fin = ?, ser_visible = ?
         WHERE id_oferta = ?
     `;
@@ -109,7 +109,7 @@ export const deleteOffer = (req, res) => {
     }
 
     db.query(
-        "DELETE FROM ofertas WHERE id_oferta = ?",
+        "DELETE FROM OFERTAS WHERE id_oferta = ?",
         [id_oferta],
         (err, result) => {
             if (err) {

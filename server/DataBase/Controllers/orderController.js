@@ -5,7 +5,7 @@ export const newOrder =(req, res) => {
     console.log("id_usuario recibido:", id_usuario);
     // Crear un nuevo pedido con estado "en_pedido"
     db.query(
-        'INSERT INTO pedidos (id_usuario, estado) VALUES (?, "en_pedido")',
+        'INSERT INTO PEDIDOS (id_usuario, estado) VALUES (?, "en_pedido")',
         [id_usuario],
         (err, result) => {
             if (err) {
@@ -21,7 +21,7 @@ export const getCurrentOrder = (req, res) => {
     const { id_usuario } = req.params;
 
     db.query(
-        'SELECT * FROM pedidos WHERE id_usuario = ? AND estado = "en_pedido" LIMIT 1',
+        'SELECT * FROM PEDIDOS WHERE id_usuario = ? AND estado = "en_pedido" LIMIT 1',
         [id_usuario],
         (err, results) => {
             if (err) {
@@ -34,7 +34,7 @@ export const getCurrentOrder = (req, res) => {
             const pedido = results[0];
             // Obtener los detalles del pedido
             db.query(
-                'SELECT * FROM detalle_pedido WHERE id_pedido = ?',
+                'SELECT * FROM DETALLE_PEDIDO WHERE id_pedido = ?',
                 [pedido.id_pedido],
                 (err, detalleResults) => {
                     if (err) {
@@ -52,21 +52,21 @@ export const getCurrentOrder = (req, res) => {
 export const addItemToOrder = (req, res) => {
     const { id_pedido, id_postre, cantidad } = req.body;
 
-    db.query('SELECT id_usuario FROM pedidos WHERE id_pedido = ?', [id_pedido], (err, pedidoResult) => {
+    db.query('SELECT id_usuario FROM PEDIDOS WHERE id_pedido = ?', [id_pedido], (err, pedidoResult) => {
         if (err) return res.status(500).json({ error: 'Error al buscar el pedido' });
         if (pedidoResult.length === 0) return res.status(404).json({ error: 'Pedido no encontrado' });
         const id_usuario = pedidoResult[0].id_usuario;
 
-        db.query('SELECT * FROM detalle_pedido WHERE id_pedido = ? AND id_postre = ?', [id_pedido, id_postre], (err, detalleResult) => {
+        db.query('SELECT * FROM DETALLE_PEDIDO WHERE id_pedido = ? AND id_postre = ?', [id_pedido, id_postre], (err, detalleResult) => {
             if (err) return res.status(500).json({ error: 'Error al buscar el detalle del pedido' });
 
-            db.query('SELECT precio FROM postres WHERE id_postre = ?', [id_postre], (err, postreResult) => {
+            db.query('SELECT precio FROM POSTRES WHERE id_postre = ?', [id_postre], (err, postreResult) => {
                 if (err) return res.status(500).json({ error: 'Error al buscar el postre' });
                 if (postreResult.length === 0) return res.status(404).json({ error: 'Postre no encontrado' });
                 let precio_unitario = postreResult[0].precio;
 
                 db.query(
-                    'SELECT * FROM ofertas WHERE id_postre = ? AND ser_visible = TRUE AND CURDATE() BETWEEN fecha_inicio AND fecha_fin',
+                    'SELECT * FROM OFERTAS WHERE id_postre = ? AND ser_visible = TRUE AND CURDATE() BETWEEN fecha_inicio AND fecha_fin',
                     [id_postre],
                     (err, ofertaResult) => {
                         if (err) return res.status(500).json({ error: 'Error al buscar la oferta' });
@@ -94,7 +94,7 @@ export const addItemToOrder = (req, res) => {
                         }
 
                         db.query(
-                            'SELECT porcentaje, tipo_descuento FROM descuentos WHERE id_usuario = ? AND estado = "activo" AND CURDATE() BETWEEN fecha_inicio AND fecha_fin',
+                            'SELECT porcentaje, tipo_descuento FROM DESCUENTOS WHERE id_usuario = ? AND estado = "activo" AND CURDATE() BETWEEN fecha_inicio AND fecha_fin',
                             [id_usuario],
                             (err, descuentoResult) => {
                                 if (err) return res.status(500).json({ error: 'Error al buscar el descuento' });
@@ -106,7 +106,7 @@ export const addItemToOrder = (req, res) => {
 
                                 const updatePedidoTotal = () => {
                                     db.query(
-                                        'UPDATE pedidos SET total = (SELECT IFNULL(SUM(subtotal),0) FROM detalle_pedido WHERE id_pedido = ?) WHERE id_pedido = ?',
+                                        'UPDATE PEDIDOS SET total = (SELECT IFNULL(SUM(subtotal),0) FROM DETALLE_PEDIDO WHERE id_pedido = ?) WHERE id_pedido = ?',
                                         [id_pedido, id_pedido],
                                         (err) => {
                                             if (err) return res.status(500).json({ error: 'Error al actualizar el total del pedido' });
@@ -116,12 +116,12 @@ export const addItemToOrder = (req, res) => {
 
                                 if (detalleResult.length === 0) {
                                     db.query(
-                                        'INSERT INTO detalle_pedido (id_pedido, id_postre, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?)',
+                                        'INSERT INTO DETALLE_PEDIDO (id_pedido, id_postre, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?)',
                                         [id_pedido, id_postre, cantidad_final, precio_unitario, subtotal],
                                         (err, insertResult) => {
                                             if (err) return res.status(500).json({ error: 'Error al insertar el detalle' });
                                             db.query(
-                                                'UPDATE postres SET unidades = unidades - ? WHERE id_postre = ?',
+                                                'UPDATE POSTRES SET unidades = unidades - ? WHERE id_postre = ?',
                                                 [cantidad, id_postre],
                                                 (err) => {
                                                     if (err) console.error('Error al actualizar stock del postre:', err);
@@ -133,12 +133,12 @@ export const addItemToOrder = (req, res) => {
                                     );
                                 } else {
                                     db.query(
-                                        'UPDATE detalle_pedido SET cantidad = ?, precio_unitario = ?, subtotal = ? WHERE id_detalle = ?',
+                                        'UPDATE DETALLE_PEDIDO SET cantidad = ?, precio_unitario = ?, subtotal = ? WHERE id_detalle = ?',
                                         [cantidad_final, precio_unitario, subtotal, detalleResult[0].id_detalle],
                                         (err, updateResult) => {
                                             if (err) return res.status(500).json({ error: 'Error al actualizar el detalle' });
                                             db.query(
-                                                'UPDATE postres SET unidades = unidades - ? WHERE id_postre = ?',
+                                                'UPDATE POSTRES SET unidades = unidades - ? WHERE id_postre = ?',
                                                 [cantidad, id_postre],
                                                 (err) => {
                                                     if (err) console.error('Error al actualizar stock del postre:', err);
@@ -162,7 +162,7 @@ export const removeItemFromOrder = (req, res) => {
     const { id_pedido, id_postre, cantidad } = req.body;
 
     db.query(
-        'SELECT * FROM detalle_pedido WHERE id_pedido = ? AND id_postre = ?',
+        'SELECT * FROM DETALLE_PEDIDO WHERE id_pedido = ? AND id_postre = ?',
         [id_pedido, id_postre],
         (err, detalleResult) => {
             if (err) return res.status(500).json({ error: 'Error al buscar el detalle del pedido' });
@@ -172,7 +172,7 @@ export const removeItemFromOrder = (req, res) => {
             const nueva_cantidad = cantidad_actual - cantidad;
             const updatePedidoTotal = () => {
                 db.query(
-                    'UPDATE pedidos SET total = (SELECT IFNULL(SUM(subtotal),0) FROM detalle_pedido WHERE id_pedido = ?) WHERE id_pedido = ?',
+                    'UPDATE PEDIDOS SET total = (SELECT IFNULL(SUM(subtotal),0) FROM DETALLE_PEDIDO WHERE id_pedido = ?) WHERE id_pedido = ?',
                     [id_pedido, id_pedido],
                     (err) => {
                         if (err) return res.status(500).json({ error: 'Error al actualizar el total del pedido' });
@@ -183,12 +183,12 @@ export const removeItemFromOrder = (req, res) => {
             if (nueva_cantidad <= 0) {
                 // Eliminar el producto del pedido
                 db.query(
-                    'DELETE FROM detalle_pedido WHERE id_detalle = ?',
+                    'DELETE FROM DETALLE_PEDIDO WHERE id_detalle = ?',
                     [detalleResult[0].id_detalle],
                     (err, deleteResult) => {
                         if (err) return res.status(500).json({ error: 'Error al eliminar el producto del pedido' });
                         db.query(
-                            'UPDATE postres SET unidades = unidades + ? WHERE id_postre = ?',
+                            'UPDATE POSTRES SET unidades = unidades + ? WHERE id_postre = ?',
                             [cantidad, id_postre],
                             (err) => {
                                 if (err) console.error('Error al restaurar stock del postre:', err);
@@ -201,7 +201,7 @@ export const removeItemFromOrder = (req, res) => {
             } else {
                 // Actualizar cantidad y subtotal
                 db.query(
-                    'SELECT precio FROM postres WHERE id_postre = ?',
+                    'SELECT precio FROM POSTRES WHERE id_postre = ?',
                     [id_postre],
                     (err, postreResult) => {
                         if (err) return res.status(500).json({ error: 'Error al buscar el postre' });
@@ -210,12 +210,12 @@ export const removeItemFromOrder = (req, res) => {
                         let subtotal = precio_unitario * nueva_cantidad;
 
                         db.query(
-                            'UPDATE detalle_pedido SET cantidad = ?, subtotal = ? WHERE id_detalle = ?',
+                            'UPDATE DETALLE_PEDIDO SET cantidad = ?, subtotal = ? WHERE id_detalle = ?',
                             [nueva_cantidad, subtotal, detalleResult[0].id_detalle],
                             (err, updateResult) => {
                                 if (err) return res.status(500).json({ error: 'Error al actualizar el producto del pedido' });
                                 db.query(
-                                    'UPDATE postres SET unidades = unidades + ? WHERE id_postre = ?',
+                                    'UPDATE POSTRES SET unidades = unidades + ? WHERE id_postre = ?',
                                     [cantidad, id_postre],
                                     (err) => {
                                         if (err) console.error('Error al restaurar stock del postre:', err);
@@ -236,7 +236,7 @@ export const updateOrderStatus = (req, res) => {
     const { id_pedido, estado } = req.body;
 
     db.query(
-        'UPDATE pedidos SET estado = ? WHERE id_pedido = ?',
+        'UPDATE PEDIDOS SET estado = ? WHERE id_pedido = ?',
         [estado, id_pedido],
         (err, result) => {
             if (err) {
@@ -253,7 +253,7 @@ export const getOrderDetailsEspecificProduct = (req, res) => {
     const { id_pedido,id_postre } = req.params;
 
     db.query(
-        'SELECT * FROM detalle_pedido WHERE id_pedido = ? and id_postre = ?',
+        'SELECT * FROM DETALLE_PEDIDO WHERE id_pedido = ? and id_postre = ?',
         [id_pedido, id_postre],
         (err, results) => {
             if (err) {
@@ -269,7 +269,7 @@ export const deleteOrder = (req, res) => {
     const { id_pedido } = req.body;
 
     // 1️⃣ Obtener los detalles del pedido
-    db.query('SELECT id_postre, cantidad FROM detalle_pedido WHERE id_pedido = ?', [id_pedido], (err, detalles) => {
+    db.query('SELECT id_postre, cantidad FROM DETALLE_PEDIDO WHERE id_pedido = ?', [id_pedido], (err, detalles) => {
         if (err) {
             console.error('Error al obtener detalles del pedido:', err);
             return res.status(500).json({ error: 'Error al obtener detalles del pedido' });
@@ -279,14 +279,14 @@ export const deleteOrder = (req, res) => {
         const restoreNext = (index) => {
             if (index >= detalles.length) {
                 // 3️⃣ Borrar detalles del pedido
-                db.query('DELETE FROM detalle_pedido WHERE id_pedido = ?', [id_pedido], (err) => {
+                db.query('DELETE FROM DETALLE_PEDIDO WHERE id_pedido = ?', [id_pedido], (err) => {
                     if (err) {
                         console.error('Error al borrar los detalles del pedido:', err);
                         return res.status(500).json({ error: 'Error al borrar los detalles del pedido' });
                     }
 
                     // 4️⃣ Borrar el pedido
-                    db.query('DELETE FROM pedidos WHERE id_pedido = ?', [id_pedido], (err) => {
+                    db.query('DELETE FROM PEDIDOS WHERE id_pedido = ?', [id_pedido], (err) => {
                         if (err) {
                             console.error('Error al cancelar el pedido:', err);
                             return res.status(500).json({ error: 'Error al cancelar el pedido' });
@@ -300,7 +300,7 @@ export const deleteOrder = (req, res) => {
 
             const detalle = detalles[index];
             db.query(
-                'UPDATE postres SET unidades = unidades + ? WHERE id_postre = ?',
+                'UPDATE POSTRES SET unidades = unidades + ? WHERE id_postre = ?',
                 [detalle.cantidad, detalle.id_postre],
                 (err) => {
                     if (err) {
@@ -325,7 +325,7 @@ export const addToHistorial = (req, res) => {
     postresArray.forEach((p, index) => {
 
         db.query(
-            'SELECT nombre, ingredientes, origen, precio, etiqueta_especial FROM postres WHERE id_postre = ?',
+            'SELECT nombre, ingredientes, origen, precio, etiqueta_especial FROM POSTRES WHERE id_postre = ?',
             [p.id_postre],
             (err, postreResult) => {
                 if (err) console.error('Error al buscar postre:', err);
@@ -338,7 +338,7 @@ export const addToHistorial = (req, res) => {
                 }
 
                 db.query(
-                    'SELECT * FROM ofertas WHERE id_postre = ? AND ser_visible = TRUE AND CURDATE() BETWEEN fecha_inicio AND fecha_fin',
+                    'SELECT * FROM OFERTAS WHERE id_postre = ? AND ser_visible = TRUE AND CURDATE() BETWEEN fecha_inicio AND fecha_fin',
                     [p.id_postre],
                     (err, ofertaResult) => {
                         if (err) console.error("Error oferta:", err);
@@ -355,7 +355,7 @@ export const addToHistorial = (req, res) => {
                         if (procesados === postresArray.length) {
 
                             db.query(
-                                'SELECT porcentaje FROM descuentos WHERE id_usuario = ? AND estado = "activo" AND CURDATE() BETWEEN fecha_inicio AND fecha_fin',
+                                'SELECT porcentaje FROM DESCUENTOS WHERE id_usuario = ? AND estado = "activo" AND CURDATE() BETWEEN fecha_inicio AND fecha_fin',
                                 [id_usuario],
                                 (err, descuentoResult) => {
                                     if (err) console.error('Error descuento:', err);
@@ -368,7 +368,7 @@ export const addToHistorial = (req, res) => {
 
                                     // 1️⃣ Insertar en historial
                                     db.query(
-                                        'INSERT INTO historial_pedidos (id_pedido, id_usuario, fecha_pedido, total, postres, estado) VALUES (?, ?, NOW(), ?, ?, ?)',
+                                        'INSERT INTO HISTORIAL_PEDIDOS (id_pedido, id_usuario, fecha_pedido, total, postres, estado) VALUES (?, ?, NOW(), ?, ?, ?)',
                                         [id_pedido, id_usuario, total, JSON.stringify(postresArray), estado],
                                         (err, result) => {
                                             if (err) {
@@ -378,7 +378,7 @@ export const addToHistorial = (req, res) => {
 
                                             // 2️⃣ BORRAR detalle_pedido
                                             db.query(
-                                                'DELETE FROM detalle_pedido WHERE id_pedido = ?',
+                                                'DELETE FROM DETALLE_PEDIDO WHERE id_pedido = ?',
                                                 [id_pedido],
                                                 (err) => {
                                                     if (err) {
@@ -388,7 +388,7 @@ export const addToHistorial = (req, res) => {
 
                                                     // 3️⃣ BORRAR pedido
                                                     db.query(
-                                                        'DELETE FROM pedidos WHERE id_pedido = ?',
+                                                        'DELETE FROM PEDIDOS WHERE id_pedido = ?',
                                                         [id_pedido],
                                                         (err) => {
                                                             if (err) {
@@ -448,7 +448,7 @@ export const getUserOrders = (req, res) => {
     const { id_usuario} = req.params;
 
      db.query(
-        'SELECT * FROM historial_pedidos where id_usuario = ? ORDER BY fecha_pedido DESC',
+        'SELECT * FROM HISTORIAL_PEDIDOS where id_usuario = ? ORDER BY fecha_pedido DESC',
         [id_usuario],
         (err, results) => {
             if (err) {
@@ -469,7 +469,7 @@ export const updateOrderHistorial = (req, res) => {
 
     // 1️⃣ Actualizar estado del pedido
     db.query(
-        'UPDATE historial_pedidos SET estado = ? WHERE id_historial = ?',
+        'UPDATE HISTORIAL_PEDIDOS SET estado = ? WHERE id_historial = ?',
         [estado, id_historial],
         (err, result) => {
             if (err) {
@@ -480,7 +480,7 @@ export const updateOrderHistorial = (req, res) => {
             // 2️⃣ Si el nuevo estado es "recogido", actualizar rankings
             if (estado === 'recogido') {
                 db.query(
-                    'SELECT id_usuario, postres FROM historial_pedidos WHERE id_historial = ?',
+                    'SELECT id_usuario, postres FROM HISTORIAL_PEDIDOS WHERE id_historial = ?',
                     [id_historial],
                     (err2, pedidoData) => {
                         if (err2) {
@@ -544,7 +544,7 @@ export const deleteOrderHistorial = (req, res) => {
 
     // 1️⃣ Primero obtenemos el pedido para restaurar stock si hace falta
     db.query(
-        'SELECT id_pedido, postres FROM historial_pedidos WHERE id_historial = ?',
+        'SELECT id_pedido, postres FROM HISTORIAL_PEDIDOS WHERE id_historial = ?',
         [id_historial],
         (err, results) => {
             if (err) {
@@ -562,7 +562,7 @@ export const deleteOrderHistorial = (req, res) => {
             // 2️⃣ Restaurar stock de postres
             postresArray.forEach(postre => {
                 db.query(
-                    'UPDATE postres SET unidades = unidades + ? WHERE id_postre = ?',
+                    'UPDATE POSTRES SET unidades = unidades + ? WHERE id_postre = ?',
                     [postre.cantidad, postre.id_postre],
                     (err) => {
                         if (err) console.error(`Error al restaurar stock del postre ${postre.nombre}:`, err);
@@ -572,7 +572,7 @@ export const deleteOrderHistorial = (req, res) => {
 
             // 3️⃣ Borrar del historial
             db.query(
-                'DELETE FROM historial_pedidos WHERE id_historial = ?',
+                'DELETE FROM HISTORIAL_PEDIDOS WHERE id_historial = ?',
                 [id_historial],
                 (err) => {
                     if (err) {
@@ -592,8 +592,8 @@ export const searchHistorial = (req, res) => {
 
     let query = `
         SELECT h.*, u.nombre, u.apellidos
-        FROM historial_pedidos h
-        JOIN usuarios u ON h.id_usuario = u.id_usuario
+        FROM HISTORIAL_PEDIDOS h
+        JOIN USUARIOS u ON h.id_usuario = u.id_usuario
         WHERE 1=1
     `;
     const params = [];

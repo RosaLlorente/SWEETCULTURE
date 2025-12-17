@@ -1,6 +1,4 @@
-import db from '../db.js'; // Archivo donde exportas tu conexión a MySQL
-import fs from "fs";
-import path from "path";
+import db from '../db.js'; 
 import { updateImage } from "../../Multerconfing/cloudinary.js";
 
 
@@ -16,7 +14,7 @@ export const addProduct = (req, res) => {
     const imagen_public_id = req.file ? req.file.filename : null;
 
     db.query(
-        "INSERT INTO postres (nombre, origen, precio, etiqueta_especial, imagen,imagen_public_id, descripcion, ingredientes, disponible, ser_visible, unidades, tiempo_preparacion_minutos, tiempo_horneado_minutos, capacidad_horneado, fecha_creacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO POSTRES (nombre, origen, precio, etiqueta_especial, imagen,imagen_public_id, descripcion, ingredientes, disponible, ser_visible, unidades, tiempo_preparacion_minutos, tiempo_horneado_minutos, capacidad_horneado, fecha_creacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [
             nombre, origen, precio, etiqueta_especial, imagen,imagen_public_id, descripcion, ingredientes,
             disponible, ser_visible, unidades, tiempo_preparacion_minutos,
@@ -35,8 +33,8 @@ export const addProduct = (req, res) => {
 export const getProducts = (req, res) => {
     const sql = `
         SELECT p.*, o.id_oferta, o.nombre AS oferta_nombre, o.tipo, o.valor
-        FROM postres p
-        LEFT JOIN ofertas o 
+        FROM POSTRES p
+        LEFT JOIN OFERTAS o 
             ON p.id_postre = o.id_postre
             AND o.ser_visible = TRUE
             AND CURDATE() BETWEEN o.fecha_inicio AND o.fecha_fin
@@ -54,21 +52,21 @@ export const getProducts = (req, res) => {
 export const optionSearchProducts = (req, res) => {
 
     // 1️⃣ Paises únicos de productos visibles
-    db.query("SELECT DISTINCT origen FROM postres WHERE ser_visible = 1", (err, paisesResult) => {
+    db.query("SELECT DISTINCT origen FROM POSTRES WHERE ser_visible = 1", (err, paisesResult) => {
         if (err) {
             console.log(err);
             return res.status(500).send("Error al obtener países");
         }
 
         // 2️⃣ Temporadas únicas de productos
-        db.query("SELECT DISTINCT etiqueta_especial FROM postres", (err2, temporadasResult) => {
+        db.query("SELECT DISTINCT etiqueta_especial FROM POSTRES", (err2, temporadasResult) => {
             if (err2) {
                 console.log(err2);
                 return res.status(500).send("Error al obtener temporadas");
             }
 
             // 3️⃣ Ingredientes únicos de productos visibles
-            db.query("SELECT ingredientes FROM postres WHERE ser_visible = 1", (err3, ingredientesResult) => {
+            db.query("SELECT ingredientes FROM POSTRES WHERE ser_visible = 1", (err3, ingredientesResult) => {
                 if (err3) {
                     console.log(err3);
                     return res.status(500).send("Error al obtener ingredientes");
@@ -99,21 +97,21 @@ export const optionSearchProducts = (req, res) => {
 export const optionSearchProductsAdmin = (req, res) => {
 
     // 1️⃣ Paises únicos de productos
-    db.query("SELECT DISTINCT origen FROM postres", (err, paisesResult) => {
+    db.query("SELECT DISTINCT origen FROM POSTRES", (err, paisesResult) => {
         if (err) {
             console.log(err);
             return res.status(500).send("Error al obtener países");
         }
 
         // 2️⃣ Temporadas únicas de productos
-        db.query("SELECT DISTINCT etiqueta_especial FROM postres", (err2, temporadasResult) => {
+        db.query("SELECT DISTINCT etiqueta_especial FROM POSTRES", (err2, temporadasResult) => {
             if (err2) {
                 console.log(err2);
                 return res.status(500).send("Error al obtener temporadas");
             }
 
             // 3️⃣ Ingredientes únicos de productos
-            db.query("SELECT ingredientes FROM postres", (err3, ingredientesResult) => {
+            db.query("SELECT ingredientes FROM POSTRES", (err3, ingredientesResult) => {
                 if (err3) {
                     console.log(err3);
                     return res.status(500).send("Error al obtener ingredientes");
@@ -148,7 +146,7 @@ export const searchProduct = (req, res) => {
     const {id_postre, nombre, precioMaximo, pais, ingredientesExcluir,etiquetaEspecial } = req.body;
 
     // Consulta base
-    let query = "SELECT * FROM postres WHERE 1=1";
+    let query = "SELECT * FROM POSTRES WHERE 1=1";
     const params = [];
 
      if (id_postre) {
@@ -204,7 +202,7 @@ export const updateProduct = (req, res) => {
     } = req.body;
 
     // 1️⃣ Obtener imagen antigua
-    db.query("SELECT imagen_public_id FROM postres WHERE id_postre = ?", [id_postre], (err, result) => {
+    db.query("SELECT imagen_public_id FROM POSTRES WHERE id_postre = ?", [id_postre], (err, result) => {
         if (err) return res.status(500).send("Error al obtener el producto");
         if (result.length === 0) return res.status(404).send("Producto no encontrado");
 
@@ -217,7 +215,7 @@ export const updateProduct = (req, res) => {
 
             if (imagen) {
                 query = `
-                    UPDATE postres SET 
+                    UPDATE POSTRES SET 
                         nombre=?, origen=?, precio=?, etiqueta_especial=?, imagen=?, imagen_public_id=?,
                         descripcion=?, ingredientes=?, disponible=?, ser_visible=?, 
                         unidades=?, tiempo_preparacion_minutos=?, tiempo_horneado_minutos=?, 
@@ -231,7 +229,7 @@ export const updateProduct = (req, res) => {
                 ];
             } else {
                 query = `
-                    UPDATE postres SET 
+                    UPDATE POSTRES SET 
                         nombre=?, origen=?, precio=?, etiqueta_especial=?, 
                         descripcion=?, ingredientes=?, disponible=?, ser_visible=?, 
                         unidades=?, tiempo_preparacion_minutos=?, tiempo_horneado_minutos=?, 
@@ -249,7 +247,7 @@ export const updateProduct = (req, res) => {
                 if (err2) return res.status(500).send("Error al actualizar el producto");
 
                 // Traer producto actualizado
-                db.query("SELECT * FROM postres WHERE id_postre = ?", [id_postre], (err3, results) => {
+                db.query("SELECT * FROM POSTRES WHERE id_postre = ?", [id_postre], (err3, results) => {
                     if (err3) return res.status(500).send("Error al traer producto actualizado");
                     res.status(200).send({ producto: results[0] });
                 });
@@ -279,7 +277,7 @@ export const deleteProduct = (req, res) => {
     
     console.log("Intentando eliminar producto:", id_postre);
 
-    db.query("SELECT id_postre FROM postres WHERE id_postre = ?", [id_postre], (err, result) => {
+    db.query("SELECT id_postre FROM POSTRES WHERE id_postre = ?", [id_postre], (err, result) => {
         if (err) { console.error(err); return res.status(500).send("Error al obtener el producto"); }
         if (result.length === 0) return res.status(404).send("Producto no encontrado");
 
