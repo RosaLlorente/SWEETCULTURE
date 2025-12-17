@@ -84,7 +84,7 @@ export function SectionUs()
      * Actualiza el estado `valoraciones` con los datos obtenidos del backend.
      */
     useEffect(() => {
-        axios.get(`${API_URL}3000/getRatingsServices`)
+        axios.get(`${API_URL}/getRatingsServices`)
             .then(res => {
                 setValoraciones(res.data);
             })
