@@ -103,9 +103,19 @@ export const updateUser = (req, res) => {
         };
 
         if (req.file) {
-             updateUserInDb(req.file.path, req.file.filename);
+            const filePath = req.file.path; // archivo temporal
+            const folder = "ProfileUserImage"; // forzar carpeta de perfil
+            const oldPublicId = usuario.oldPublicId; // public_id de la imagen anterior
+
+            updateImage(filePath, folder, oldPublicId, (result) => {
+                if (result) {
+                    updateUserInDb(result.secure_url, result.public_id); // guardar URL y public_id
+                } else {
+                    console.error("Error subiendo imagen");
+                }
+            });
         } else {
-            updateUserInDb();
+            updateUserInDb(); // solo actualiza otros campos
         }
     });
 };
