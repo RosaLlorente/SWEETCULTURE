@@ -31,20 +31,20 @@ app.use(express.json());
 
 
 //Rutas de acceso a la tabla de usuarios
-app.post("/addUser", upload.single("imagen"), addUser);
+app.post("/addUser", upload.single("Imagen"), addUser);
 
 
 app.post("/searchUser", searchUser);
-app.put("/updateUser/:id_usuario", upload.single("imagen"), updateUser);
+app.put("/updateUser/:id_usuario", upload.single("Imagen"), updateUser);
 app.get("/getTopRatingedUsers",getTopRatingedUsers);
 
 // Rutas de acceso a la tabla de productos
-app.post("/addProduct", upload.single("imagen"), addProduct);
+app.post("/addProduct", upload.single("Imagen"), addProduct);
 app.get("/getProducts", getProducts);
 app.get("/optionSearchProducts", optionSearchProducts);
 app.get("/optionSearchProductsAdmin", optionSearchProductsAdmin);
 app.post("/searchProduct", searchProduct);
-app.put("/updateProduct/:id_postre", upload.single("imagen"), updateProduct);
+app.put("/updateProduct/:id_postre", upload.single("Imagen"), updateProduct);
 app.delete("/deleteProduct/:id_postre", deleteProduct);
 
 //Rutas de acceso a la tabla de ofertas

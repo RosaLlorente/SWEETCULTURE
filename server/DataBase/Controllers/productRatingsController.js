@@ -72,7 +72,7 @@ export const getMeanRatingProduct = (req, res) => {
 export const getTopRatingedProducts = (req, res) => {
     db.query(
         `SELECT p.*, AVG(vp.puntuacion) AS promedio
-            FROM postres p
+            FROM POSTRES p
             JOIN VALORACIONES_POSTRES vp ON p.id_postre = vp.id_postre
             GROUP BY p.id_postre
             ORDER BY promedio DESC

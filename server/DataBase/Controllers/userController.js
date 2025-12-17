@@ -18,7 +18,7 @@ export const addUser = (req, res) => {
     db.query(
         `INSERT INTO USUARIOS 
         (nombre, apellidos, telefono, fecha_nacimiento, imagen, imagen_public_id, email, contrasena, informacion_publica, fecha_registro)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
             Nombre,
             Apellidos,
