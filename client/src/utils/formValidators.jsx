@@ -93,7 +93,6 @@ export const validateEditUser = ({ nombre, apellidos, email, contrasena, telefon
   if (!email) return { error: "El email es obligatorio" };
   if (!emailRegex.test(email)) return { error: "El email no es válido" };
   if (!contrasena || contrasena.length < 6) return { error: "La contraseña es obligatoria y debe tener al menos 6 caracteres" };
-  if (!telefono) return { error: "El teléfono es obligatorio" };
   if (!/^\d{9}$/.test(telefono)) return { error: "El teléfono debe tener 9 dígitos" };
 
   return {
