@@ -18,7 +18,7 @@ import { newOrder,getCurrentOrder,addItemToOrder,removeItemFromOrder,getOrderDet
 import {getVentasTotales,getPedidosTotales,getVentasPorEstado,getBestProduct,getTop5SoldProducts,getTop5RatedProducts,getSalesPerProduct,getTotalUsers,getTopUsuarios} from'./DataBase/Controllers/stadisticAdminController.js';
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: "https://sweetculture.vercel.app/" }));
 app.use(express.json());
 
 
