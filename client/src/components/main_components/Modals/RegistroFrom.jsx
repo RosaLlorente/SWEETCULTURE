@@ -95,14 +95,14 @@ const RegistroFrom = () =>
 
 
         const formData = new FormData();
-        formData.append("Nombre", nombre);
-        formData.append("Apellidos", apellidos);
-        formData.append("Telefono", telefono);
-        formData.append("FechaNacimiento", fecha_nacimiento);
-        formData.append("Imagen", imagen);
-        formData.append("Email", email);
-        formData.append("Password", contrasena);
-        formData.append("Informacion_publica", informacion_publica ? 1 : 0);
+        formData.append("nombre", nombre);
+        formData.append("apellidos", apellidos);
+        formData.append("telefono", telefono);
+        formData.append("fechaNacimiento", fecha_nacimiento);
+        formData.append("imagen", imagen);
+        formData.append("email", email);
+        formData.append("password", contrasena);
+        formData.append("informacion_publica", informacion_publica ? 1 : 0);
         formData.append("fecha_registro", fecha_registro);
         console.log(imagen);
 
@@ -154,7 +154,7 @@ const RegistroFrom = () =>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="Imagen" className="form-label">Imagen de Perfil</label>
-                            <input type="file" className="form-control" id="Imagen" name="Imagen" accept="image/*"
+                            <input type="file" className="form-control" id="Imagen" name="imagen" accept="image/*"
                                 onChange={(event)=>{ setImagen(event.target.files[0]); }}/>
                         </div>
                         <div className="mb-3">
