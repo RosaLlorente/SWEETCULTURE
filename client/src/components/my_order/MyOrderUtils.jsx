@@ -5,7 +5,7 @@ import axios from "axios";
 
 const MyOrderUtils = () => {
     //Lógica y funciones para MyOrder   
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const [pendingAdd, setPendingAdd] = useState(null); // { id_postre, cantidad }
     const [miPedido, setMiPedido] = useState(null);
     const  { usuario } = useContext(AuthContext);

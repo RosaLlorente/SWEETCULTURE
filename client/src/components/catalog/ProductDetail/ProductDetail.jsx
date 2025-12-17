@@ -7,7 +7,7 @@ import {validateRating} from "../../../utils/formValidators"
 import Alert from "@mui/material/Alert";
 
 const ProductDetail = () => {
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const location = useLocation();
     const { producto } = location.state || {};
     const [dejarValoracion, setDejarValoracion] = useState(false);

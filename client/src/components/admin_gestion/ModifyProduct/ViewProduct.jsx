@@ -13,7 +13,7 @@ import Alert from "@mui/material/Alert";
 const ViewProduct = ({ productos }) => 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const [ListaProductos, setListaProductos] = useState([]);
     const [editIndex, setEditIndex] = useState(null);
     const [editData, setEditData] = useState({});

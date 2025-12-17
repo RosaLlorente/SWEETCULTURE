@@ -8,7 +8,7 @@ import "../../../assets/CSS/admin_gestion/Modify_Order/SearchOrder.css";
 const SearchOrder = ({ onSearch }) => 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const [OpcionesBusqueda, setOpcionesBusqueda] = useState({});
     const [idHistorial, setIdHistorial] = useState("");
     const [idUsuario, setIdUsuario] = useState("");

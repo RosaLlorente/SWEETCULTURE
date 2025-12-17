@@ -11,7 +11,7 @@ import Alert from "@mui/material/Alert";
 const Perfil = () => 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const { usuario, setUsuario } = useContext(AuthContext);
     const [editMode, setEditMode] = useState(false);
     const [editData, setEditData] = useState({});

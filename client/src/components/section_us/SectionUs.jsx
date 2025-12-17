@@ -12,7 +12,7 @@ import "../../assets/CSS/SectionUs/SectionUs.css";
 export function SectionUs() 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const { usuario } = useContext(AuthContext);
     const id_usuario = usuario ? usuario.id_usuario : null;
     const [comentario, setComentario] = useState("");

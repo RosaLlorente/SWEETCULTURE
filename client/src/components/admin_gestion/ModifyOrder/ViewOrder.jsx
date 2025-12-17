@@ -7,7 +7,7 @@ import Alert from "@mui/material/Alert";
 export function ViewOrder({ historiales = [] }) 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const [listaHistorial, setListaHistorial] = useState([]);
     const [alertMessage, setAlertMessage] = useState("");
     const [alertSeverity, setAlertSeverity] = useState("info");

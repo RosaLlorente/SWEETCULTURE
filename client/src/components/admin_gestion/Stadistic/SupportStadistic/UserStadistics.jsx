@@ -7,7 +7,7 @@ import "chart.js/auto";
 const UsersStadistics = () => 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const [totalUsers, setTotalUsers] = useState(0);
     const [topUsers, setTopUsers] = useState([]);
 

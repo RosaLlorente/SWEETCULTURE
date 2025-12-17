@@ -9,7 +9,7 @@ import Alert from "@mui/material/Alert";
 export function AddProduct() 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const [nombre, setNombre] = useState("");
     const [origen, setOrigen] = useState("");
     const [precio, setPrecio] = useState(""); 

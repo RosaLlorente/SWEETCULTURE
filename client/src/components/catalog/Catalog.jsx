@@ -11,7 +11,7 @@ import "../../assets/CSS/catalog/Catalog.css"
 export function Catalog() 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const location = useLocation();
     const [ListaProductos, setListaProductos] = useState([]);
 

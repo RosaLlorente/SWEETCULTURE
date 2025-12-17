@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import "../../../assets/CSS/section_home_components/support_components/CardCarrusel3D.css";
 
 const CardCarrusel3D = () => {
-	const API_URL= process.env.API_URL;
+	const API_URL= process.env.REACT_APP_API_URL;
 	/**
 	 * Función que obtiene hasta 10 imágenes aleatorias de productos visibles desde el backend.
 	 *

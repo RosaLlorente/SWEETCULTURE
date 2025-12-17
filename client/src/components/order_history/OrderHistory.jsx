@@ -10,7 +10,7 @@ import "../../assets/CSS/order_history/OrderHistory.css";
 export function OrderHistory() 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const { usuario } = useContext(AuthContext);
     const [listaHistorial, setListaHistorial] = useState([]);
     const [alertMessage, setAlertMessage] = useState("");

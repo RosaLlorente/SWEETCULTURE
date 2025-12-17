@@ -9,7 +9,7 @@ import '../../../assets/CSS/section_home_components/support_components/TopRatedP
 const TopRatedProduct = () => 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const [topList, setTopList] = useState([]);
     const [topProduct, setTopProduct] = useState(null);
     const [meanRating, setMeanRating] = useState(0);

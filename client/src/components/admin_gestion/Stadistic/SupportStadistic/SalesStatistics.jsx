@@ -7,7 +7,7 @@ import "chart.js/auto";
 const SalesStadistics = () => 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
     const [ventas, setVentas] = useState({ total_pedidos: 0, ventas_totales: 0 });
     const [ventasAll, setVentasAll] = useState({ total_pedidos: 0, ventas_totales: 0 });
     const [ventasPorEstado, setVentasPorEstado] = useState([]);

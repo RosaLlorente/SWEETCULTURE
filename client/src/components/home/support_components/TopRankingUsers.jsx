@@ -10,7 +10,8 @@ import '../../../assets/CSS/section_home_components/support_components/TopRankin
 const TopRankingUsers = () => 
 {
     //Declaración de constantes
-    const API_URL= process.env.API_URL;
+    const API_URL= process.env.REACT_APP_API_URL;
+    console.log(process.env.REACT_APP_API_URL);
     const [topUsers, setTopUsers] = useState([]);
     const [topUser, setTopUser] = useState(null);
 

@@ -8,7 +8,7 @@
     const SearchProduct = ({ onSearch }) => 
     {
         //Declaración de constantes
-        const API_URL= process.env.API_URL;
+        const API_URL= process.env.REACT_APP_API_URL;
         const [OpcionesBusqueda, setOpcionesBusqueda] = useState({});
         const[NombreProducto, setNombreProducto]= useState("");
         const[PrecioMaximo, setPrecioMaximo]= useState("");
