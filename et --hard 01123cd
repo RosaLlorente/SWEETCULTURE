@@ -1,0 +1,17 @@
+[33m64f1feb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Corrección
+[33m01123cd[m Correccion de campos
+[33mf84a3fc[m corrección de error
+[33mdf2ef38[m Corrección de error
+[33m4f60142[m Corrección de error
+[33m39168b7[m Corrección de error
+[33mef7d349[m Corrección de error
+[33md202824[m retoques variables 3
+[33m4861381[m retoque variables de entorno3
+[33mf09ee0b[m Retoques de variables de entorno2
+[33ma0671fa[m Retoques de variables de entorno2
+[33mf9fdf6c[m Retoques de variables de entorno2
+[33mdfe6321[m Retoques de variables de entorno
+[33m3e24cfc[m Retoques de controladores y llamadas por vía producción
+[33m17c2909[m Fix: actualizar dependencias y añadir mysql2
+[33m77ffc7e[m Cambios parte 1 del deploy,imagenes en produccion
+[33m616b224[m Versión funcional en Local
