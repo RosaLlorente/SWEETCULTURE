@@ -77,7 +77,7 @@ export function Inicio()
                         <h3 className="text-center mb-4">Ofertas</h3>
                         <div className="container">
                             <div className="row">
-                                {productosAleatorios.map((producto) => {
+                                {productosAleatorios?.map((producto) => {
                                     const oferta = ofertas.find(o => o.id_postre === producto.id_postre);
 
                                     return (

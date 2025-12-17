@@ -59,12 +59,12 @@ const SalesStadistics = () =>
      */
     const chartData = 
     {
-        labels: ventasPorEstado.map(v => estadoLabels[v.estado] || v.estado),
+        labels: ventasPorEstado?.map(v => estadoLabels[v.estado] || v.estado),
         datasets: 
         [
             {
                 label: "Cantidad de pedidos",
-                data: ventasPorEstado.map(v => v.total_pedidos),
+                data: ventasPorEstado?.map(v => v.total_pedidos),
                 backgroundColor: ["#007bff", "#28a745", "#ffc107", "#dc3545"], // Colores por estado
             }
         ]

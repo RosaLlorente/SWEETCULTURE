@@ -194,7 +194,7 @@ const ProductDetail = () => {
 
                                 {/* Estrellas interactivas */}
                                 <div style={{ fontSize: "2rem", cursor: "pointer" }}>
-                                    {[1,2,3,4,5].map(star => (
+                                    {[1,2,3,4,5]?.map(star => (
                                         <span
                                             key={star}
                                             onClick={() => setPuntuacion(star)}

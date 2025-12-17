@@ -193,7 +193,7 @@ export function AddOffer()
                                 onChange={(e) => setId_postre(e.target.value)}
                             >
                                 <option value="">Selecciona un postre</option>
-                                {postres.map((postre) => (
+                                {postres?.map((postre) => (
                                     <option key={postre.id_postre} value={postre.id_postre}>
                                         Nombre: {postre.nombre} id: ({postre.id_postre})
                                     </option>

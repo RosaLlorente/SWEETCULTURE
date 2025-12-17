@@ -41,7 +41,7 @@ const MyOrder = () => {
                             </p>
                             {miPedido.detalle && miPedido.detalle.length > 0 ? (
                                 <div className="list-group mb-3">
-                                    {miPedido.detalle.map((item) => {
+                                    {miPedido.detalle?.map((item) => {
                                         const productoCompleto = productosCatalogo.find(p => p.id_postre === item.id_postre);
                                         return (
                                             <div key={item.id_detalle} className="list-group-item d-flex justify-content-between align-items-center">

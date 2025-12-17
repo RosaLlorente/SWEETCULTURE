@@ -36,12 +36,12 @@ const UsersStadistics = () =>
      */
     const chartData = 
     {
-        labels: topUsers.map(u => `${u.nombre} ${u.apellidos}`),
+        labels: topUsers?.map(u => `${u.nombre} ${u.apellidos}`),
         datasets: 
         [
             {
                 label: "Compras (ranking)",
-                data: topUsers.map(u => u.ranking_general),
+                data: topUsers?.map(u => u.ranking_general),
                 backgroundColor: "#0d6efd"
             }
         ]
@@ -96,7 +96,7 @@ const UsersStadistics = () =>
                     <div className="card shadow-sm p-3 h-100">
                         <h4 className="mb-3">🏆 Top 5 usuarios con más compras</h4>
                         <ul className="list-group">
-                            {topUsers.map((u, i) => (
+                            {topUsers?.map((u, i) => (
                                 <li key={u.id_usuario} className="list-group-item d-flex align-items-center gap-3">
                                     <strong>{i + 1}.</strong>
                                     

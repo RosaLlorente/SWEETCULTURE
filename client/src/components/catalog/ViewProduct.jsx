@@ -95,7 +95,7 @@ const ViewProduct = ({ productos }) =>
      */
     const renderProduct = () => 
     {
-        const productosConOferta = productos.map(p => 
+        const productosConOferta = productos?.map(p => 
         {
             if (p.id_oferta) 
             {
@@ -119,7 +119,7 @@ const ViewProduct = ({ productos }) =>
 
         return productosConOferta
             .filter(p => p.ser_visible === 1 || p.ser_visible === true)
-            .map((product, index) => {
+            ?.map((product, index) => {
                 const item = productosEnPedido[product.id_postre];
                 const unidadesRestantes = product.unidades - (item?.cantidad || 0);
                 const isExpanded = expandedProducts[product.id_postre];

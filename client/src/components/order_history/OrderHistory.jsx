@@ -88,7 +88,7 @@ export function OrderHistory()
                     No hay historial disponible.
                 </div>
             ) : (
-                listaHistorial.map((item, index) => (
+                listaHistorial?.map((item, index) => (
                     <div className="card mb-4 shadow-sm" key={item.id_historial}>
                         <div className="card-body">
                             
@@ -147,7 +147,7 @@ export function OrderHistory()
                                     >
                                         <div className="accordion-body">
 
-                                            {item.postres.map((postre, i) => (
+                                            {item.postres?.map((postre, i) => (
                                                 <div 
                                                     key={i} 
                                                     className="d-flex gap-3 p-2 border rounded mb-2"

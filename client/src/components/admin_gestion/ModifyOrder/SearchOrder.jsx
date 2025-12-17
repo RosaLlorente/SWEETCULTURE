@@ -148,7 +148,7 @@ const SearchOrder = ({ onSearch }) =>
                     >
                         <option value="">Estado</option>
                         {OpcionesBusqueda.estado &&
-                            OpcionesBusqueda.estado.map((e, i) => (
+                            OpcionesBusqueda.estado?.map((e, i) => (
                                 <option key={i} value={e}>{e}</option>
                             ))
                         }

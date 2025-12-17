@@ -93,7 +93,7 @@ const RatingsService = () =>
           return Number(b.puntuacion) - Number(a.puntuacion);
         });
     }
-    return ratingsCopy.map((item, index) => (
+    return ratingsCopy?.map((item, index) => (
         <div key={index} className="rating-item">
            <div>
                 <div>

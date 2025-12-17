@@ -128,7 +128,7 @@
                             {/* Select País */}
                             <select className="form-select w-100 w-md-auto"  value={PaisOrigen} onChange={e => setPaisOrigen(e.target.value)}>
                                 <option defaultValue="">País de origen</option>
-                                {OpcionesBusqueda.paises && OpcionesBusqueda.paises.map((pais, index) => (
+                                {OpcionesBusqueda.paises && OpcionesBusqueda.paises?.map((pais, index) => (
                                     <option key={index} value={pais}>{pais}</option>
                                 ))}
                             </select>
@@ -136,7 +136,7 @@
                             {/* Select Temporada */}
                             <select className="form-select w-100 w-md-auto"  value={EtiquetaEspecial} onChange={e => setEtiquetaEspecial(e.target.value)}>
                                 <option value="">Temporada</option>
-                                {OpcionesBusqueda.temporadas && OpcionesBusqueda.temporadas.map((etiqueta_especial, index) => (
+                                {OpcionesBusqueda.temporadas && OpcionesBusqueda.temporadas?.map((etiqueta_especial, index) => (
                                     <option key={index} value={etiqueta_especial}>{etiqueta_especial}</option>
                                 ))}
                             </select>
@@ -152,7 +152,7 @@
                                 </button>
 
                                 <ul className="dropdown-menu p-3" style={{ minWidth: "220px" }}>
-                                    {OpcionesBusqueda.ingredientes && OpcionesBusqueda.ingredientes.map((ingrediente, index) => (
+                                    {OpcionesBusqueda.ingredientes && OpcionesBusqueda.ingredientes?.map((ingrediente, index) => (
                                         <li key={index}>
                                             <div className="form-check">    
                                                 <input 

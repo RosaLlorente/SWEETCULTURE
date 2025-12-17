@@ -238,7 +238,7 @@ const ViewOffer = ({ofertas}) =>
                                 </thead>
 
                                 <tbody>
-                                    {ListaOfertas.map((offer, index) => (
+                                    {ListaOfertas?.map((offer, index) => (
                                         <tr key={`${offer.id_oferta}-${index}`}>
 
                                             <td>{offer.id_oferta}</td>
@@ -300,7 +300,7 @@ const ViewOffer = ({ofertas}) =>
                                                         onChange={(e) => setEditData({ ...editData, id_postre: e.target.value })}
                                                     >
                                                         <option value="">Selecciona un postre</option>
-                                                        {postres.map((postre) => (
+                                                        {postres?.map((postre) => (
                                                             <option key={postre.id_postre} value={postre.id_postre}>
                                                                 Nombre: {postre.nombre} id: ({postre.id_postre})
                                                             </option>

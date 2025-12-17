@@ -123,7 +123,7 @@ const MyOrderUtils = () => {
         if (!miPedido || !id_pedido) return;
 
         // 1️⃣ Crear snapshot de los productos del pedido
-        const postresSnapshot = miPedido.detalle.map(item => ({
+        const postresSnapshot = miPedido.detalle?.map(item => ({
             id_postre: item.id_postre,
             nombre: item.nombre_postre || `Postre #${item.id_postre}`,
             cantidad: item.cantidad,

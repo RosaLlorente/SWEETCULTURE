@@ -80,7 +80,7 @@ export function ViewOrder({ historiales = [] })
 
         if (!window.confirm(`¿Eliminar ${selectedPedidos.length} pedido(s) seleccionado(s)?`)) return;
 
-        Promise.all(selectedPedidos.map(id =>
+        Promise.all(selectedPedidos?.map(id =>
             axios.delete(`${API_URL}/deleteOrderHistorial/${id}`)
         ))
         .then(() => {
@@ -155,7 +155,7 @@ export function ViewOrder({ historiales = [] })
         .then(() => {
             setAlertMessage("Estado actualizado correctamente");
             setAlertSeverity("success");
-            setListaHistorial(prev => prev.map(p =>
+            setListaHistorial(prev => prev?.map(p =>
                 p.id_historial === editData.id_historial ? { ...p, estado: editData.estado } : p
             ));
             cancelEdit();
@@ -185,7 +185,7 @@ export function ViewOrder({ historiales = [] })
             {listaHistorial.length === 0 ? (
                 <div className="alert alert-warning text-center">No hay historial disponible.</div>
             ) : (
-                listaHistorial.map((item, index) => (
+                listaHistorial?.map((item, index) => (
                     <div className="card mb-4 shadow-sm" key={item.id_historial}>
                         <div className="card-body">
                             <div className="d-flex justify-content-between align-items-center">
@@ -259,7 +259,7 @@ export function ViewOrder({ historiales = [] })
                                     </h2>
                                     <div id={`collapse-${index}`} className="accordion-collapse collapse" data-bs-parent={`#accordion-${index}`}>
                                         <div className="accordion-body">
-                                            {item.postres.map((postre, i) => (
+                                            {item.postres?.map((postre, i) => (
                                                 <div key={i} className="d-flex gap-3 p-2 border rounded mb-2">
                                                     <div>
                                                         <p className="fw-bold mb-1">{postre.nombre}</p>

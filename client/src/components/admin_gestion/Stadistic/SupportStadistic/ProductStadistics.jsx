@@ -57,12 +57,12 @@ const ProductStadistics = () =>
      */
     const chartDataSales = 
     {
-        labels: salesPerProduct.map(p => p.nombre),
+        labels: salesPerProduct?.map(p => p.nombre),
         datasets: 
         [
             {
                 label: "Unidades vendidas",
-                data: salesPerProduct.map(p => p.total_vendido),
+                data: salesPerProduct?.map(p => p.total_vendido),
                 backgroundColor: "rgba(255, 99, 132, 0.7)"
             }
         ]
@@ -117,7 +117,7 @@ const ProductStadistics = () =>
                 <h4>📈 Top 5 postres más vendidos</h4>
                 {topSold.length > 0 ? (
                     <ul className="list-group">
-                        {topSold.map((p, i) => (
+                        {topSold?.map((p, i) => (
                             <li key={i} className="list-group-item d-flex justify-content-between align-items-center">
                                 {i + 1}. {p.nombre}
                                 <span>{p.ventas_totales || 0} unidades</span>
@@ -134,7 +134,7 @@ const ProductStadistics = () =>
                 <h4>⭐ Top 5 postres mejor valorados</h4>
                 {topRated.length > 0 ? (
                     <ul className="list-group">
-                        {topRated.map((p, i) => (
+                        {topRated?.map((p, i) => (
                             <li key={i} className="list-group-item d-flex justify-content-between align-items-center">
                                 {i + 1}. {p.nombre}
                                 <span>{p.promedio != null ?  Number(p.promedio).toFixed(1) : "N/A"} / 5</span>
@@ -152,7 +152,7 @@ const ProductStadistics = () =>
                 <div className="row">
                     <div className="col-md-6">
                         <div className="accordion" id="productsAccordion">
-                            {salesPerProduct.map((p, i) => (
+                            {salesPerProduct?.map((p, i) => (
                                 <div className="accordion-item" key={i}>
                                     <h2 className="accordion-header" id={`heading-${i}`}>
                                         <button

@@ -252,7 +252,7 @@ const ViewProduct = ({ productos }) =>
                     </thead>
 
                     <tbody>
-                        {ListaProductos.map((product, index) => (
+                        {ListaProductos?.map((product, index) => (
                             <tr key={`${product.id_postre}-${index}`}>
 
                                 <td>{product.id_postre}</td>

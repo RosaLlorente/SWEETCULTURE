@@ -111,7 +111,7 @@ const SearchOffer = ({onSearch}) =>
                         {/* Tipo de oferta */}
                         <select className="form-select w-100 w-md-auto"  value={TipoOferta} onChange={e => setTipoOferta(e.target.value)}>
                             <option defaultValue="">Tipo de oferta</option>
-                            {OpcionesBusqueda.tipo && OpcionesBusqueda.tipo.map((tipo, index) => (
+                            {OpcionesBusqueda.tipo && OpcionesBusqueda.tipo?.map((tipo, index) => (
                                 <option key={index} value={tipo}>{tipo}</option>
                             ))}
                         </select>

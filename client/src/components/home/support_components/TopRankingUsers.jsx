@@ -61,11 +61,11 @@ const TopRankingUsers = () =>
      */
     const chartData = 
     {
-        labels: topUsers.map(u => u.nombre),
+        labels: topUsers?.map(u => u.nombre),
         datasets: 
         [
             {
-                data: topUsers.map(u => Number(u.ranking_general)),
+                data: topUsers?.map(u => Number(u.ranking_general)),
                 backgroundColor: ["rgb(246, 214, 148)", "rgb(244, 164, 123)", "rgba(211, 133, 206, 0.855)", "rgb(204, 171, 202)", "rgb(43, 140, 137)"],
                 borderWidth: 0
             }
@@ -125,7 +125,7 @@ const TopRankingUsers = () =>
                     <h4 className="section-subtitle">🏅 Top 5 usuarios</h4>
 
                     <ul className="ranking-list">
-                        {topUsers.map((u, i) => (
+                        {topUsers?.map((u, i) => (
                             <li key={u.id_usuario} className="ranking-item">
                                 <span className="ranking-pos">{i + 1}</span>
                                 {!u.imagen || u.imagen === "null" ? (

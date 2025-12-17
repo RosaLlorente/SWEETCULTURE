@@ -90,10 +90,10 @@ const TopRatedProduct = () =>
      */
     const chartData = 
     {
-        labels: topList.map(item => item.nombre),
+        labels: topList?.map(item => item.nombre),
         datasets: 
         [{
-            data: topList.map(item => Number(item.promedio)),
+            data: topList?.map(item => Number(item.promedio)),
             backgroundColor: ["rgb(246, 214, 148)", "rgb(244, 164, 123)", "rgba(211, 133, 206, 0.855)", "rgb(204, 171, 202)", "rgb(43, 140, 137)"],
             borderWidth: 0
         }]
@@ -151,7 +151,7 @@ const TopRatedProduct = () =>
                     <h4 className="section-subtitle">🏅 Top 5 mejor valorados</h4>
 
                     <ul className="products-ranking">
-                        {topList.map((item, index) => (
+                        {topList?.map((item, index) => (
                             <li key={item.id_postre} className="product-item">
                                 <span className="product-pos">{index + 1}</span>
 

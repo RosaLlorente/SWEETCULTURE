@@ -39,7 +39,7 @@ const CardCarrusel3D = () => {
 			const selected = shuffled.slice(0, count);
 
 			// Retornamos solo las URLs de las imágenes
-			return selected.map(product => product.imagen);
+			return selected?.map(product => product.imagen);
 		} 
 		catch (error) 
 		{
@@ -74,7 +74,7 @@ const CardCarrusel3D = () => {
 		<>
 			<div className="carrusel-3d-container">
 				<div className="carrusel-3d">
-					{images.map((img, idx) => (
+					{images?.map((img, idx) => (
 						<div
 							className="carrusel-3d-card"
 							key={idx}

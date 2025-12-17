@@ -280,7 +280,7 @@ export function SectionUs()
                     >
                         <div className="carousel-inner">
 
-                            {valoraciones.map((val, index) => (
+                            {valoraciones?.map((val, index) => (
                                 <div
                                     key={`${val.id_valoracion}-${index}`}
                                     className={`carousel-item ${index === 0 ? "active" : ""}`}
@@ -385,7 +385,7 @@ export function SectionUs()
                             </div>
 
                             <div className="Valoracion-stars-container">
-                                {[1, 2, 3, 4, 5].map((star) => (
+                                {[1, 2, 3, 4, 5]?.map((star) => (
                                     <span
                                         key={star}
                                         onClick={() => setPuntuacion(star)}
