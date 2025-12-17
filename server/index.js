@@ -17,9 +17,12 @@ import { newOrder,getCurrentOrder,addItemToOrder,removeItemFromOrder,getOrderDet
     addToHistorial,getUsersOrders,getUserOrders,updateOrderHistorial,deleteOrderHistorial,searchHistorial } from'./DataBase/Controllers/orderController.js';
 import {getVentasTotales,getPedidosTotales,getVentasPorEstado,getBestProduct,getTop5SoldProducts,getTop5RatedProducts,getSalesPerProduct,getTotalUsers,getTopUsuarios} from'./DataBase/Controllers/stadisticAdminController.js';
 
-const app = express();
 app.use(cors({ 
-  origin: ["https://sweetculture.vercel.app", "http://localhost:5173"], // Permite producción y desarrollo local
+  origin: [
+    "https://sweetculture.vercel.app", 
+    "https://sweetculture-git-main-rosallorentes-projects.vercel.app", // Tu dominio de la captura
+    "http://localhost:5173"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
